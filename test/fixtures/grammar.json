@@ -1,0 +1,16 @@
+{
+  "scopeName": "source.test",
+  "name": "Test",
+  "patterns": [
+    {
+      "name": "keyword.test",
+      "match": "test(.*)",
+      "captures": {
+        "1": {
+          "name": "keyword.test-suffix",
+          "match": "(.*)"
+        }
+      }
+    }
+  ]
+}

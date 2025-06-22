@@ -1,0 +1,94 @@
+{
+  "name": "@carlwr/textmate-validate",
+  "description": "Validation of TextMate grammars",
+  "keywords": [
+    "vscode",
+    "textmate",
+    "grammar",
+    "validation"
+  ],
+  "author": {
+    "name": "carlwr",
+    "url": "https://github.com/carlwr"
+  },
+  "publisher": "carlwr",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlwr/textmate-validate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/carlwr/textmate-validate/issues"
+  },
+  "homepage": "https://github.com/carlwr/textmate-validate",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "bin": {
+    "textmate-validate": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsx build.ts",
+    "build:dev": "tsx build.ts --dev",
+    "prepublishOnly": "pnpm run build",
+    "publish:dry": "pnpm publish --dry-run",
+    "publish:release": "pnpm publish",
+    "version:patch": "pnpm version patch",
+    "version:minor": "pnpm version minor",
+    "version:major": "pnpm version major",
+    "lint": "biome check",
+    "imports:sort": "biome check --linter-enabled=false --organize-imports-enabled=true --write",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run -t '^(?!@dist)'",
+    "test:watch": "vitest",
+    "test:example:ts": "tsx src/cli.ts -v test/fixtures/grammar.json",
+    "test:example:js": "node dist/cli.js -v test/fixtures/grammar.json",
+    "test:dist": "vitest run -t '@dist'",
+    "qa": "pnpm typecheck && pnpm lint && pnpm test",
+    "LAST_dummy": "false"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "arg": "^5.0.2",
+    "globby": "^14.1.0",
+    "read-pkg": "^9.0.1",
+    "vscode-oniguruma": "2.0.1",
+    "vscode-textmate": "^9.2.0",
+    "zod": "^3.25.28",
+    "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@carlwr/fastcheck-utils": "^0.2.1",
+    "@carlwr/typescript-extra": "^0.3.1",
+    "@fast-check/vitest": "^0.2.1",
+    "@types/node": "^22.15.21",
+    "ajv": "^8.17.1",
+    "tsup": "^8.5.0",
+    "tsx": "^4.19.4",
+    "typedoc": "^0.28.5",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4",
+    "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
