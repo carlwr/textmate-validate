@@ -1,0 +1,22 @@
+{
+  $schema: "https://json.schemastore.org/prettierrc",
+  overrides: [
+    {
+      // https://github.com/prettier/prettier/issues/15553#issue-1965583277
+      files: ["**/*.jsonc"],
+      options: {
+        parser: "json5",
+        quoteProps: "preserve",
+        trailingComma: "all",
+      },
+    },
+    {
+      files: ["**/*.json5"],
+      options: {
+        parser: "json5",
+        quoteProps: "preserve",
+        trailingComma: "all",
+      },
+    },
+  ],
+}
