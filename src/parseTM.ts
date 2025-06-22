@@ -115,9 +115,7 @@ const mapValues =
   (fn : Go) =>
   (obj: unknown):
   PathedRgx[] =>
-{
-  return mapObjectEntries(patchPath(fn))(obj)
-}
+  mapObjectEntries(patchPath(fn))(obj)
 
 /**
  * if the object is an array, flatmap over its elements
@@ -126,38 +124,32 @@ const mapElements =
   (fn : Go) =>
   (obj: unknown):
   PathedRgx[] =>
-{
-  return mapArrayElements(patchPath(fn))(obj)
-}
+  mapArrayElements(patchPath(fn))(obj)
 
 // entry-point:
-function grammar2regexes(obj: unknown): PathedRgx[] {
-  const applyIfKey_ = applyIfKey(obj)
-  return [
-    ...applyIfKey_(go_repo_captures)('repository'),
-    ...applyIfKey_(go_patterns     )('patterns' as const),
+const grammar2regexes = (obj: unknown) =>
+  [
+    ...applyIfKey(obj)(go_repo_captures)('repository'),
+    ...applyIfKey(obj)(go_patterns     )('patterns' as const),
   ]
-}
 
 // go_* mutually recursive functions:
-const go_rule: Go = (obj: unknown): PathedRgx[] => {
-  const applyIfKey_ = applyIfKey(obj)
-  return [
-    ...repoKeys   .flatMap(applyIfKey_(go_repo_captures)),
-    ...captureKeys.flatMap(applyIfKey_(go_repo_captures)),
-    ...patternKeys.flatMap(applyIfKey_(go_patterns     )),
-    ...regexKeys  .flatMap(applyIfKey_(asRegexLeaf     )),
+const go_rule = (obj: unknown) =>
+  [
+    ...repoKeys   .flatMap(applyIfKey(obj)(go_repo_captures)),
+    ...captureKeys.flatMap(applyIfKey(obj)(go_repo_captures)),
+    ...patternKeys.flatMap(applyIfKey(obj)(go_patterns     )),
+    ...regexKeys  .flatMap(applyIfKey(obj)(asRegexLeaf     )),
   ]
-}
 const go_repo_captures = mapValues  (go_rule)
 const go_patterns      = mapElements(go_rule)
 
 // base case:
-function asRegexLeaf(obj: unknown): PathedRgx[] {
-  return typeof obj === 'string'
+const asRegexLeaf = (obj: unknown) =>
+  typeof obj === 'string'
     ? [ {pth:[],rgx:obj} ]
     : []
-}
+
 
 go_rule          satisfies Go
 go_repo_captures satisfies Go
