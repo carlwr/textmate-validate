@@ -1,0 +1,13 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "outputs": [
+    {
+      "name": "html",
+      "path": "./.aux/docs_html",
+    },
+  ],
+  "sort": [
+    "source-order"
+  ]
+}

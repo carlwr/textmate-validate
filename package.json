@@ -47,6 +47,7 @@
   "scripts": {
     "build": "tsx build.ts",
     "build:dev": "tsx build.ts --dev",
+    "docs": "typedoc",
     "prepublishOnly": "pnpm run build",
     "publish:dry": "pnpm publish --dry-run",
     "publish:release": "pnpm publish",
