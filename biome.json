@@ -1,28 +1,28 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"files": {
-		"include": ["src/**/*.ts", "build.ts", "test/**/*.ts", "vitest.config.ts"]
-	},
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git"
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
-			"suspicious": {
-				"noExplicitAny": "off",
-				"noAssignInExpressions": "off"
-			},
-			"correctness": {
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "files": {
+    "include": ["src/**/*.ts", "build.ts", "test/**/*.ts", "vitest.config.ts"]
+  },
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noAssignInExpressions": "off"
+      },
+      "correctness": {
         "noUnreachable": "info",
-				"noUnusedVariables": "info"
-			},
-			"style": {
-				"noVar": "error",
-				"useTemplate": "info",
-				"noUnusedTemplateLiteral": "info",
+        "noUnusedVariables": "info"
+      },
+      "style": {
+        "noVar": "error",
+        "useTemplate": "info",
+        "noUnusedTemplateLiteral": "info",
         "noParameterAssign": "warn",
         "noYodaExpression": "warn",
         "useAsConstAssertion": "info",
@@ -30,16 +30,16 @@
         "useNodejsImportProtocol": "warn",
         "useShorthandAssign": "info",
         "noImplicitBoolean": "info"
-			},
-			"complexity": {
-				"noForEach": "off"
-			}
-		}
-	},
-	"formatter": {
-		"enabled": false
-	},
-	"organizeImports": {
-		"enabled": true
-	}
+      },
+      "complexity": {
+        "noForEach": "off"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": false
+  },
+  "organizeImports": {
+    "enabled": true
+  }
 }
