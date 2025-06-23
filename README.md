@@ -1,5 +1,7 @@
 # `textmate-validate`
 
+[![docs](https://github.com/carlwr/textmate-validate/actions/workflows/docs.yaml/badge.svg)](https://github.com/carlwr/textmate-validate/actions/workflows/docs.yaml)
+
 Validation of VSCode TextMate grammars.
 
 Links:
