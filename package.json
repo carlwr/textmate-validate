@@ -76,7 +76,7 @@
     "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.5",
     "@carlwr/fastcheck-utils": "^0.2.1",
     "@carlwr/typescript-extra": "^0.3.1",
     "@fast-check/vitest": "^0.2.1",
