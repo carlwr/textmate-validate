@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { assertNever, hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra';
+import { hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra';
 import type { Assert, Eq } from '@carlwr/typescript-extra'
 import type { GrammarSource, LocatedRegex, Regex } from './tmgrammar-validate.js';
 
@@ -32,7 +32,11 @@ function getGrammarString(source: GrammarSource): unknown {
 ref. on expected structure:
   https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts
 
-implementation choice: using fully curried, pure functions and functional-style recursive tree traversal - mostly for the sake of experimenting with such an implementation scheme
+choice of implementation:
+- functional-style recursive tree traversal
+- use pure, fully curried functions
+- why? -> mostly for the sake of experimenting with this particular style in TypeScript
+- note: the recursion is not tail-recursive - and it wouldn't make a difference since none of the common runtimes do tail-call optimization; an imperative implementation with mutation would be more efficient; given the limited size of textMate grammars this is likely not of practical concern in this specific case
 
 */
 
