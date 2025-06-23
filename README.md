@@ -3,6 +3,7 @@
 Validation of VSCode TextMate grammars.
 
 Links:
+* API docs: [carlwr.github.io/textmate-validate](https://carlwr.github.io/textmate-validate)
 * github: [`carlwr/textmate-validate`](https://github.com/carlwr/textmate-validate)
 * npm: [`@carlwr/textmate-validate`](https://www.npmjs.com/package/@carlwr/textmate-validate)
 
