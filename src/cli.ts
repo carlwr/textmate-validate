@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import process from 'node:process'
 import arg from 'arg'
 import * as pkg from './pkgJson.js'
 import { failed, printResult, validateGrammar } from './tmgrammar-validate.js'

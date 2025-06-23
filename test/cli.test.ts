@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import process from 'node:process'
 import { it, test } from '@fast-check/vitest'
 import { describe, expect } from 'vitest'
 import * as gr from './generators/grammar.js'

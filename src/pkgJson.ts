@@ -1,3 +1,4 @@
+import process from 'node:process'
 import * as readPkg from 'read-pkg'
 import { z } from 'zod'
 
