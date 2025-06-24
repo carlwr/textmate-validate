@@ -175,7 +175,7 @@ const mapObjectEntries = <U>
 /**
  * If the object is an array, flatmap over its elements, otherwise return [].
  *
- * Allowed generic types: see {@link MaybeArrayOf}; in short: only types guaranteeing that the mapping function can be safely called are allowed.
+ * Allowed generic types: see {@link MaybeArrayOf}; in short: if types are more explicit than `any` or `unknown`, then only types guaranteeing that the mapping function can be safely called are allowed.
  *
  * note: the argument of the mapping function takes a [key,elem]-like tuple, with key = array index, which is different from the mapping functions of the built-in array methods.
  */
@@ -197,12 +197,12 @@ function isObjectLike<T>(obj: T): obj is NonNullable<T> {
 }
 
 /**
- * A generic that evaluates to `T` or `never` depending on conditions on `T` and `E`.
+ * A generic that evaluates to `T` or `never` depending on `T` and `E`.
  *
  * Evaluate to `never` if (all of):
  * - T is an array
  * - its elements are not E
- * - E is not unknown or `any`
+ * - E is not `unknown` or `any`
  *
  * In all other cases, evaluate to `T`.
  *
