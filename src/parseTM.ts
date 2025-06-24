@@ -208,7 +208,7 @@ function isObjectLike<T>(obj: T): obj is NonNullable<T> {
  *
  */
 type MaybeArrayOf<T,E> =
-  [ IsArrayOf<T,any>,
+  [ IsArrayOf<T,unknown>,
     IsUnknown<E>,
     IsArrayOf<T,E>
   ] extends [true,false,false]
@@ -220,10 +220,10 @@ type IsUnknown<T>   = unknown extends T      ? true : false
   // note: IsUnknown<any> == true because unknown extends any
 
 type _Tests_MaybeArrayOf = [
-  Assert< Eq< MaybeArrayOf<string[],string >, string[] > >,
-  Assert< Eq< MaybeArrayOf<number[],string >, never    > >,
-  Assert< Eq< MaybeArrayOf<any[]   ,string >, any[]    > >,
-  Assert< Eq< MaybeArrayOf<string  ,number >, string   > >,
-  Assert< Eq< MaybeArrayOf<string  ,unknown>, string   > >,
-  Assert< Eq< MaybeArrayOf<string[],any    >, string[] > >,
+  Assert< Eq< MaybeArrayOf<string[] ,string >, string[] > >,
+  Assert< Eq< MaybeArrayOf<number[] ,string >, never    > >,
+  Assert< Eq< MaybeArrayOf<unknown[],string >, unknown[]> >,
+  Assert< Eq< MaybeArrayOf<string   ,number >, string   > >,
+  Assert< Eq< MaybeArrayOf<string   ,unknown>, string   > >,
+  Assert< Eq< MaybeArrayOf<string[] ,unknown>, string[] > >,
 ]
