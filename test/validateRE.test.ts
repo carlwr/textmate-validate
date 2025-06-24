@@ -33,10 +33,10 @@ describe('validateRegex()', () => {
       expect(result).    satisfies(pkg.failed)
       expect(result).not.satisfies(pkg.passed)
     })
-    it('should resolve .valid to false', async () => {
+    it('should resolve .valid to false', () => {
       expect(result.valid).toBeFalsy()
     })
-    it('should resolve .err to a string', async () => {
+    it('should resolve .err to a string', () => {
       if (pkg.failed(result))
         expect(result.err).toMatch(/unmatched.*parenthesis/)
     })

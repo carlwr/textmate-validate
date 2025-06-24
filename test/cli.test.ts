@@ -15,14 +15,14 @@ const tempDir = join(aux, 'cli-tests')
 // important: total runtime for this test file should be max approx. 1 sec.
 // unclear why, but the below tests do not run fully in parallell
 
-describe.concurrent('with the example .json grammar', async() => {
+describe.concurrent('with the example .json grammar', () => {
   it.concurrent(
     'validates',
     validates(['pnpm', 'tsx', 'src/cli.ts', EXAMPLE_GRAMMAR])
   )
 })
 
-describe.concurrent('property', async() => {
+describe.concurrent('property', () => {
 
   test.concurrent.prop
     ([gr.simple.arb], {numRuns: 1})
@@ -58,7 +58,7 @@ describe.concurrent('property', async() => {
 })
 
 
-describe.concurrent('property', async () => {
+describe.concurrent('property', () => {
 
   test.concurrent.prop
     ([gr.withInvalid.arb], {numRuns: 1})
