@@ -3,17 +3,27 @@
   "files": {
     "includes": ["src/**/*.ts", "build.ts", "test/**/*.ts", "vitest.config.ts"],
   },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true,
+    },
+  },
   "vcs": {
     "enabled": false,
     "clientKind": "git",
   },
   "linter": {
     "enabled": true,
+    "domains": {
+      "project": "recommended",
+    },
     "rules": {
       "recommended": true,
       "suspicious": {
         "noExplicitAny": "off",
         "noAssignInExpressions": "off",
+        "noEvolvingTypes": "on",
       },
       "correctness": {
         "noUnreachable": "info",
@@ -29,9 +39,11 @@
         "useNodejsImportProtocol": "warn",
         "useShorthandAssign": "info",
         "noImplicitBoolean": "info",
+        "noNonNullAssertion": "off",
       },
       "complexity": {
         "noForEach": "off",
+        "noUselessUndefinedInitialization": "off",
       },
     },
   },
