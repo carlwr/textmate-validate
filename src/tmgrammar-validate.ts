@@ -72,8 +72,7 @@ type GrammarResult = LocatedRegexResult[]
 /**
  * Validate a single regex. Return a value describing the result of the validation.
  */
-async function
-validateRegex(re: Regex): Promise<RegexResult> {
+async function validateRegex(re: Regex): Promise<RegexResult> {
   const onigLib = await loadOnigWasm()
   try { onigLib.createOnigScanner([re]) }
   catch (error) {
@@ -88,8 +87,7 @@ validateRegex(re: Regex): Promise<RegexResult> {
 /**
  * Validate a grammar by extracting its regexes and then validating each. Return a value describing the result of the validation.
  */
-async function
-validateGrammar(source: GrammarSource): Promise<GrammarResult> {
+function validateGrammar(source: GrammarSource): Promise<GrammarResult> {
   const regexes = getGrammarRegexes(source)
   const result = mapAsync(regexes, validateGrammarRegex)
   return result
