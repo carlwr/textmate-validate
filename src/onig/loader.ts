@@ -30,13 +30,9 @@ async function loadVscOnig(wasmData: ArrayBuffer): Promise<vscTM.IOnigLib> {
 
 interface vscOnigModule {
   loadWASM: (data: ArrayBuffer) => Promise<void>
-  createOnigScanner: (patterns: string[]) => any
-  createOnigString: (str: string) => any
+  createOnigScanner: (patterns: string[]) => vscTM.OnigScanner
+  createOnigString: (str: string) => vscTM.OnigString
 }
-
-// interface vscOnigModule_default {
-//   default: vscOnigModule
-// }
 
 function hasProp(obj: unknown, prop: string): obj is Record<string,unknown> {
   return (
