@@ -1,16 +1,16 @@
-import { readFileSync } from 'node:fs';
-import { Ajv } from 'ajv';
-import { describe, expect, it } from 'vitest';
-import * as pkg from '../src/index.js';
+import { readFileSync } from 'node:fs'
+import { Ajv } from 'ajv'
+import { describe, expect, it } from 'vitest'
+import * as pkg from '../src/index.js'
 
 const TM_SCHEMA = 'test/schemas/tmLanguage.schema.json'
 
 function schemaCheck(g: any) {
-  const ajv = new Ajv();
+  const ajv = new Ajv()
   const schema = readFileSync(TM_SCHEMA, 'utf8')
-  const validate = ajv.compile(JSON.parse(schema));
+  const validate = ajv.compile(JSON.parse(schema))
   if (!validate(g)) {
-    throw new Error(ajv.errorsText(validate.errors));
+    throw new Error(ajv.errorsText(validate.errors))
   }
 }
 

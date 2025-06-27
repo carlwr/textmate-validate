@@ -1,18 +1,18 @@
-import * as fcu from "@carlwr/fastcheck-utils";
-import { nonEmptyUniqueArray as fcu_nonEmptyUnique } from "@carlwr/fastcheck-utils";
-import { type NonEmpty, drain, flatmapNonEmpty, isEmpty, isNonEmpty, isSingle, mapNonEmpty } from "@carlwr/typescript-extra";
-import { fc } from "@fast-check/vitest";
+import * as fcu from '@carlwr/fastcheck-utils'
+import { nonEmptyUniqueArray as fcu_nonEmptyUnique } from '@carlwr/fastcheck-utils'
+import { type NonEmpty, drain, flatmapNonEmpty, isEmpty, isNonEmpty, isSingle, mapNonEmpty } from '@carlwr/typescript-extra'
+import { fc } from '@fast-check/vitest'
 
 export { deep, simple, withInvalid }
 export type { Grammar, Tracked, RE, TaggedRE, ValidRE, InvalidRE }
 
 // grammar definition:
 
-type RuleName      = string & { __brand: 'RuleName'      };
-type IncludeString = string & { __brand: 'IncludeString' };
-type Scope         = string & { __brand: 'ScopeName'     };
-type CaptureId     = string & { __brand: 'CaptureId'     }; // "0","1",..
-type RE            = string & { __brand: 'RE'            };
+type RuleName      = string & { __brand: 'RuleName'      }
+type IncludeString = string & { __brand: 'IncludeString' }
+type Scope         = string & { __brand: 'ScopeName'     }
+type CaptureId     = string & { __brand: 'CaptureId'     } // "0","1",..
+type RE            = string & { __brand: 'RE'            }
 
 type CapturesMap = Record<CaptureId,CaptureEntry>
 type RepoMap     = Record<RuleName,Rule>
@@ -24,31 +24,31 @@ type Rule =
 
 interface CaptureEntry {
   readonly name           : Scope
-  readonly comment?       : string;
+  readonly comment?       : string
   readonly patterns?      : Rule[]
 }
 
 interface MatchRule {
-  readonly name           : Scope;
-  readonly match          : RE;
-  readonly comment?       : string;
-  readonly captures?      : CapturesMap;
+  readonly name           : Scope
+  readonly match          : RE
+  readonly comment?       : string
+  readonly captures?      : CapturesMap
 }
 
 interface BeginEndRule {
-  readonly name           : Scope;
-  readonly begin          : RE;
-  readonly end            : RE;
-  readonly comment?       : string;
-  readonly beginCaptures? : CapturesMap;
-  readonly endCaptures?   : CapturesMap;
-  readonly patterns?      : Rule[];
-  readonly contentName?   : Scope;
+  readonly name           : Scope
+  readonly begin          : RE
+  readonly end            : RE
+  readonly comment?       : string
+  readonly beginCaptures? : CapturesMap
+  readonly endCaptures?   : CapturesMap
+  readonly patterns?      : Rule[]
+  readonly contentName?   : Scope
 }
 
 interface IncludeRule {
-  readonly include        : IncludeString;
-  readonly comment?       : string;
+  readonly include        : IncludeString
+  readonly comment?       : string
 }
 
 /**
@@ -238,7 +238,7 @@ function mkRules(
   throw new Error('should be unreachable')
 }
 
-mkRules satisfies MkRules;
+mkRules satisfies MkRules
 
 type MkRules = (
   rs       : RE[],
@@ -263,7 +263,7 @@ type Tracked = {
   REtracker: TaggedRE[]
   }
 
-type Arb<T> = fc.Arbitrary<T>;
+type Arb<T> = fc.Arbitrary<T>
 
 /**
  * create an arbitrary yielding grammars woith tracker
@@ -367,12 +367,12 @@ const invalidREsMaterial = flatmapNonEmpty(
     '\\'
   ] as const,
   s => mapNonEmpty([s, `_${s}`, `__${s}`], toInvalidRE)
-);
+)
 
 const _includeSpecialsMaterial = [
   '$self',
   '$base',
-]; // unused; TODO
+] // unused; TODO
 
 const arbValidRE    = fcu.element(validREsMaterial)
 const arbInvalidRE  = fcu.element(invalidREsMaterial)

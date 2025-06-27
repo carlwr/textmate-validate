@@ -1,9 +1,9 @@
 import { extract, withoutFirstSubstring } from '@carlwr/typescript-extra'
-import { describe, expect } from 'vitest';
-import { describe_for } from '../helpers/describe_for.js';
-import { expectUnique } from '../helpers/testUtils.js';
-import * as grammar from './grammar.js';
-import type { Grammar } from './grammar.js';
+import { describe, expect } from 'vitest'
+import { describe_for } from '../helpers/describe_for.js'
+import { expectUnique } from '../helpers/testUtils.js'
+import * as grammar from './grammar.js'
+import type { Grammar } from './grammar.js'
 
 
 function extractRefs(g: Grammar) {
@@ -48,8 +48,8 @@ describe_for('grammar invariant: rules referenced vs. in repo', [
   grammar.withInvalid
 ], gg => {
 
-  const refs = new Set(extractRefs(gg.grammar));
-  const repo = new Set(Object.keys(gg.grammar.repository));
+  const refs = new Set(extractRefs(gg.grammar))
+  const repo = new Set(Object.keys(gg.grammar.repository))
 
   for (const ref of refs)
     expect(repo, "referenced rule not in repo").toContain(ref)
@@ -75,10 +75,10 @@ describe_for('structure at depth=0 as expected', [
   grammar.deep,
   grammar.withInvalid
 ], gg => {
-  expect(gg.grammar.name      ).toBeDefined();
-  expect(gg.grammar.scopeName ).toBeDefined();
-  expect(gg.grammar.patterns  ).toBeInstanceOf(Array);
-  expect(gg.grammar.repository).toBeInstanceOf(Object);
+  expect(gg.grammar.name      ).toBeDefined()
+  expect(gg.grammar.scopeName ).toBeDefined()
+  expect(gg.grammar.patterns  ).toBeInstanceOf(Array)
+  expect(gg.grammar.repository).toBeInstanceOf(Object)
   expect(gg.grammar.patterns  ).not.toHaveLength(0)
   expect(gg.REtracker         ).not.toHaveLength(0)
 })()
@@ -90,13 +90,13 @@ describe('invalid REs in tracker?', () => {
     grammar.simple,
     grammar.deep,
   ], gg => {
-    expect(gg.REtracker.every(r => r.valid)).toBe(true);
+    expect(gg.REtracker.every(r => r.valid)).toBe(true)
   })()
 
   describe_for('expecting some', [
     grammar.withInvalid,
   ], gg => {
-    expect(gg.REtracker.some(r => !r.valid)).toBe(true);
+    expect(gg.REtracker.some(r => !r.valid)).toBe(true)
   })()
 
 })

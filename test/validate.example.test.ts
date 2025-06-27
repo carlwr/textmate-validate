@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import * as pkg from '../src/index.js';
+import { describe, expect, it } from 'vitest'
+import * as pkg from '../src/index.js'
 
 // build a simple example grammar
 function makeGrammar(re1: string, re2: string): unknown {
@@ -17,7 +17,7 @@ function makeGrammar(re1: string, re2: string): unknown {
         },
       },
     }],
-  };
+  }
 
 }
 
@@ -25,15 +25,15 @@ function makeGrammar(re1: string, re2: string): unknown {
 describe('validateGrammar()', () => {
 
   it('should validate (string)', async () => {
-    const grammar = JSON.stringify(makeGrammar('reStr', '(.*)'));
-    const res = await pkg.validateGrammar({ kind: 'str', value: grammar });
+    const grammar = JSON.stringify(makeGrammar('reStr', '(.*)'))
+    const res = await pkg.validateGrammar({ kind: 'str', value: grammar })
     expect(res).toSatisfy(pkg.passed)
-  });
+  })
 
   it('should fail (string)', async () => {
-    const grammar = JSON.stringify(makeGrammar('reStr', '.*)'));
-    const res = await pkg.validateGrammar({ kind: 'str', value: grammar });
+    const grammar = JSON.stringify(makeGrammar('reStr', '.*)'))
+    const res = await pkg.validateGrammar({ kind: 'str', value: grammar })
     expect(res).toSatisfy(pkg.failed)
-  });
+  })
 
-});
+})

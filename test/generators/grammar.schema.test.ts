@@ -1,8 +1,8 @@
-import { readFileSync } from 'node:fs';
-import { Ajv } from 'ajv';
-import type { ValidateFunction } from 'ajv';
-import { describe_for } from '../helpers/describe_for.js';
-import * as grammar from './grammar.js';
+import { readFileSync } from 'node:fs'
+import { Ajv } from 'ajv'
+import type { ValidateFunction } from 'ajv'
+import { describe_for } from '../helpers/describe_for.js'
+import * as grammar from './grammar.js'
 
 const TM_SCHEMA = 'test/schemas/tmLanguage.schema.json'
 
@@ -19,7 +19,7 @@ function check(g: grammar.Grammar) {
   })()
 
   if (!validator.validate(g)) {
-    throw new Error(validator.ajv.errorsText(validator.validate.errors));
+    throw new Error(validator.ajv.errorsText(validator.validate.errors))
   }
 }
 
@@ -28,5 +28,5 @@ describe_for('schema', [
   grammar.deep,
   grammar.withInvalid
 ], gg => {
-  check(gg.grammar);
+  check(gg.grammar)
 })()

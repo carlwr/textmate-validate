@@ -11,16 +11,16 @@ implementation note:
   - using the .wasm binary from the vscode-oniguruma package requires a bit of a hack - we use a heuristic to find the compiled .wasm binary that is included with the vscode-oniguruma package.
 */
 
-import { mapAsync, memoized } from '@carlwr/typescript-extra';
-import type * as vscTM from 'vscode-textmate';
-import { getVscOnigFixed } from './onig/index.js';
-import { getOnigWasmPath } from './onig/wasmPath.js';
-import { getGrammarRegexes } from './parseTM.js';
+import { mapAsync, memoized } from '@carlwr/typescript-extra'
+import type * as vscTM from 'vscode-textmate'
+import { getVscOnigFixed } from './onig/index.js'
+import { getOnigWasmPath } from './onig/wasmPath.js'
+import { getGrammarRegexes } from './parseTM.js'
 
 export type { GrammarSource, LocatedRegex, LocatedRegexResult, Regex, RegexResult, GrammarResult, Reporter }
 export { validateGrammar, validateRegex, getWasmPath, printResult, failed, passed, reportResult, makeConsoleReporter }
 
-const loadOnigWasm = memoized(getVscOnigFixed);
+const loadOnigWasm = memoized(getVscOnigFixed)
 
 
 /**
@@ -74,7 +74,7 @@ type GrammarResult = LocatedRegexResult[]
  */
 async function
 validateRegex(re: Regex): Promise<RegexResult> {
-  const onigLib = await loadOnigWasm();
+  const onigLib = await loadOnigWasm()
   try { onigLib.createOnigScanner([re]) }
   catch (error) {
     const err = error instanceof Error
@@ -146,7 +146,7 @@ async function validateGrammarRegex(re: LocatedRegex): Promise<LocatedRegexResul
  * The detected path of the `onig.wasm` file. Throws an error if not found.
  */
 function getWasmPath(): string {
-  return getOnigWasmPath();
+  return getOnigWasmPath()
 }
 
 /**
@@ -168,7 +168,7 @@ function makeConsoleReporter(
   out: (s: string) => void = console.log,
   err: (s: string) => void = console.error,
 ): Reporter {
-  const nil = (_s: string) => {};
+  const nil = (_s: string) => {}
   return (
     verbosity===0 ? { out1: nil, out2: nil, err1: nil } :
     verbosity===1 ? { out1: out, out2: nil, err1: err } :
@@ -184,8 +184,8 @@ interface Formatter {
 }
 
 function nonCompactFormatter(): Formatter {
-  const fmtItem = ([k,v]: [string, string]) => `  ${k.padEnd(9)} ${v}\n`;
-  const fmtItems = (items: [string, string][]) => items.map(fmtItem).join('');
+  const fmtItem = ([k,v]: [string, string]) => `  ${k.padEnd(9)} ${v}\n`
+  const fmtItems = (items: [string, string][]) => items.map(fmtItem).join('')
   return {
     message: (tag,message)       => `[${tag}] ${message}\n`,
     group:   (tag,subject,items) => `[${tag}] ${subject}\n${fmtItems(items)}`
@@ -193,7 +193,7 @@ function nonCompactFormatter(): Formatter {
 }
 
 function compactFormatter(): Formatter {
-  const fmtItem = ([k,v]: [string, string]) => `${k} ${v}`;
+  const fmtItem = ([k,v]: [string, string]) => `${k} ${v}`
   const fmtItems = (items: [string, string][]) => `${items.map(fmtItem).join(', ')}`
   return {
     message: (tag,message)       => `[${tag}] ${message}\n`,
@@ -235,10 +235,11 @@ function reportResult(result: GrammarResult, rep: Reporter, fmt: Formatter): voi
       [["error:", `${e.err}`],
        ["regex:", `${e.rgx}`],
        ["path:",  `${e.loc}`]]))
-  });
+  })
 
-  (invalid.length > 0)
-    ? rep.err1(fmt.message("ERROR", 'validation failed'))
-    : rep.out1(fmt.message("INFO" , 'validation passed'))
+  if (invalid.length > 0)
+    rep.err1(fmt.message("ERROR", 'validation failed'))
+  else
+    rep.out1(fmt.message("INFO" , 'validation passed'))
 
 }

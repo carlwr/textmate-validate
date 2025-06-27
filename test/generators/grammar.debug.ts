@@ -1,6 +1,6 @@
-import { fc } from '@fast-check/vitest';
-import arg from 'arg';
-import * as grammar from './grammar.js';
+import { fc } from '@fast-check/vitest'
+import arg from 'arg'
+import * as grammar from './grammar.js'
 
 const DEFAULT_SAMPLES = 20
 const DEFAULT_SEED    = 1

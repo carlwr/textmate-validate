@@ -1,7 +1,7 @@
-import { readFileSync } from 'node:fs';
-import { hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra';
+import { readFileSync } from 'node:fs'
+import { hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra'
 import type { Assert, Eq } from '@carlwr/typescript-extra'
-import type { GrammarSource, LocatedRegex, Regex } from './tmgrammar-validate.js';
+import type { GrammarSource, LocatedRegex, Regex } from './tmgrammar-validate.js'
 
 export function getGrammarRegexes(source: GrammarSource): LocatedRegex[] {
   return grammar2regexes(getGrammarString(source)).map(pathed2located)

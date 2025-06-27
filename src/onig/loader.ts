@@ -1,6 +1,6 @@
-import type * as vscTM from 'vscode-textmate';
+import type * as vscTM from 'vscode-textmate'
 
-const vscOnigImport = import('vscode-oniguruma');
+const vscOnigImport = import('vscode-oniguruma')
 
 export { loadVscOnig }
 

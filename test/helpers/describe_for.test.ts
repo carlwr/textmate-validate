@@ -1,6 +1,6 @@
-import { fc } from '@fast-check/vitest';
-import { describe, expect } from 'vitest';
-import { describe_for } from './describe_for.js';
+import { fc } from '@fast-check/vitest'
+import { describe, expect } from 'vitest'
+import { describe_for } from './describe_for.js'
 
 
 describe('describe_for: nested in `describe` block', () => {

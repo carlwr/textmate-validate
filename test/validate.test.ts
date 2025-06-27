@@ -9,8 +9,8 @@ import { obj2file } from './helpers/testUtils.js'
 
 
 async function validationResult(gg: Tracked) {
-  const grammarStr = JSON.stringify(gg.grammar);
-  return await pkg.validateGrammar({ kind: 'str', value: grammarStr });
+  const grammarStr = JSON.stringify(gg.grammar)
+  return await pkg.validateGrammar({ kind: 'str', value: grammarStr })
 }
 
 async function prop_passing({grammar: gr}: Tracked) {
@@ -20,7 +20,7 @@ async function prop_passing({grammar: gr}: Tracked) {
 }
 
 async function prop_failing(gg: Tracked) {
-  const result = await validationResult(gg);
+  const result = await validationResult(gg)
   expect(result).    toSatisfy(pkg.failed)
   expect(result).not.toSatisfy(pkg.passed)
 }
@@ -94,20 +94,20 @@ if (dbgDump.enable || dbgInjectTestfail) {
 
     let curGrammar: Grammar | null = null
 
-    afterAll(() => { if (dbgDump.enable) { dumpIt() }});
+    afterAll(() => { if (dbgDump.enable) { dumpIt() }})
 
     test.prop([gr.deep.arb], cfg)('deep', async (gg) => {
       if (dbgDump.enable)    { curGrammar = gg.grammar }
       if (dbgInjectTestfail) { expect(gg.grammar.patterns.length).toBe(0); }
-      await prop_passing(gg);
-    });
-  });
+      await prop_passing(gg)
+    })
+  })
 }
 
 if (dbgDemoFailingTest) {
   describe('(debug demo failing)', () => {
     test.prop([gr.deep.arb])('DEMO: shrinking (failing test)', (gg) => {
-      expect(gg.grammar.patterns.length).toBe(0);
-    });
-  });
+      expect(gg.grammar.patterns.length).toBe(0)
+    })
+  })
 }

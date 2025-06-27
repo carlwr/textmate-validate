@@ -8,7 +8,7 @@ describe('validateRegex()', () => {
   describe('on a valid RE', async () => {
     const re = 'str(.*)'
 
-    const result = await resultPromise(re);
+    const result = await resultPromise(re)
     it('should return true/false with passed/failed', () => {
       expect(result).    satisfies(pkg.passed)
       expect(result).not.satisfies(pkg.failed)

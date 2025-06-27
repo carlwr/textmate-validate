@@ -1,12 +1,12 @@
-import { fc } from "@fast-check/vitest";
-import * as vitest from "vitest";
+import { fc } from '@fast-check/vitest'
+import * as vitest from 'vitest'
 
 /**
  * a named {@link fc.Arbitrary}, for use in {@link describe_for}
  */
 interface ArbDef<T> {
-  name: string;
-  arb : fc.Arbitrary<T>;
+  name: string
+  arb : fc.Arbitrary<T>
 }
 
 /**

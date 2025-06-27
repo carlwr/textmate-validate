@@ -11,21 +11,21 @@ const schema = z.object({
   dependencies: z.object({
     'vscode-oniguruma': z.string(),
   }),
-});
+})
 
 function parse(): PackageJson {
   try {
-    const pkg = readPkg.readPackageSync();
-    return schema.parse(pkg);
+    const pkg = readPkg.readPackageSync()
+    return schema.parse(pkg)
   } catch (e) {
-    console.error(e);
-    process.exit(1);
+    console.error(e)
+    process.exit(1)
   }
 }
 
-export type PackageJson = z.infer<typeof schema>;
+export type PackageJson = z.infer<typeof schema>
 
-export const pkgJson = parse();
+export const pkgJson = parse()
 
 export const name = pkgJson.name.replace(/^@.*?\//, '')
 
