@@ -5,7 +5,7 @@ import * as pkg from '../src/index.js'
 
 const TM_SCHEMA = 'test/schemas/tmLanguage.schema.json'
 
-function schemaCheck(g: any) {
+function schemaCheck(g: unknown) {
   const ajv = new Ajv()
   const schema = readFileSync(TM_SCHEMA, 'utf8')
   const validate = ajv.compile(JSON.parse(schema))
