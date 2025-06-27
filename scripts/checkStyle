@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+
+# crude regex-based check on some style violations
+#
+# note: trailing ;-s are required for some syntax constructs; attempt to avoid them by refactoring the code, or, if needed, adjust the regex of this script
+
+set -u
+
+command -v rg >/dev/null 2>&1 \
+|| { echo >&2 "INFO ($0): no ripgrep; won't run."
+     exit 0
+   }
+
+semi_opts='-P'
+semi_regx=$(cat <<'EOF'
+(?x)
+;
+                 # ...match if the ; is followed by
+( \s+            #     whitespace
+| //   .*        #     `//` comment
+| /[*] .*        #     `/*` comment
+)*               # ...zero or any number of times
+$
+EOF
+)
+# WARNING: ripgrep bug/issue: the regex may not end with a `#` comment
+
+import_opts=''
+import_regx='^import .*"'
+
+std_opts='--glob='*.ts' --sort=path --line-number'
+
+! rg $std_opts $semi_opts   "$semi_regx"  ; semi=$?
+! rg $std_opts $import_opts "$import_regx"; import=$?
+
+if [ $semi -ne 0 ] || [ $import -ne 0 ]
+then
+  echo >&2 "ERROR ($0): style violations found; reported above"
+  echo >&2 "  (may be a false positive; see comment in script)"
+  exit 1
+fi
+exit 0
