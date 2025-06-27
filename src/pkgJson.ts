@@ -15,16 +15,26 @@ const schema = z.object({
 })
 
 function parse(): PackageJson {
+
+  let pkg: unknown
   try {
-    const pkg = readPkg.readPackageSync()
-    return schema.parse(pkg)
+    pkg = readPkg.readPackageSync()
   } catch (e) {
+    console.error('Could not read package.json:')
     console.error(e)
     process.exit(1)
   }
+
+  const res = schema.safeParse(pkg)
+  if (!res.success) {
+    console.error('Could not read expected fields from package.json:')
+    console.error(res.error.message)
+    process.exit(1)
+  }
+  return res.data
 }
 
-export type PackageJson = z.infer<typeof schema>
+type PackageJson = z.infer<typeof schema>
 
 export const pkgJson = parse()
 
