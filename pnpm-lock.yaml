@@ -23,9 +23,6 @@ importers:
       vscode-textmate:
         specifier: ^9.2.0
         version: 9.2.0
-      zod:
-        specifier: ^3.25.67
-        version: 3.25.67
       zzz_LAST_dummy:
         specifier: npm:empty-npm-package@1.0.0
         version: empty-npm-package@1.0.0
@@ -1210,9 +1207,6 @@ packages:
     engines: {node: '>= 14.6'}
     hasBin: true
 
-  zod@3.25.67:
-    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
-
 snapshots:
 
   '@babel/code-frame@7.27.1':
@@ -2223,5 +2217,3 @@ snapshots:
       strip-ansi: 7.1.0
 
   yaml@2.8.0: {}
-
-  zod@3.25.67: {}

@@ -74,7 +74,6 @@
     "read-pkg": "^9.0.1",
     "vscode-oniguruma": "2.0.1",
     "vscode-textmate": "^9.2.0",
-    "zod": "^3.25.67",
     "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
   },
   "devDependencies": {

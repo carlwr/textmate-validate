@@ -1,55 +1,51 @@
 import process from 'node:process'
+import { memoized } from '@carlwr/typescript-extra'
 import * as readPkg from 'read-pkg'
-import { z } from 'zod'
 
-const schema = z.object({
-  name: z.string(),
-  version: z.string(),
-  description: z.string(),
-  repository: z.object({
-    url: z.string(),
-  }),
-  dependencies: z.object({
-    'vscode-oniguruma': z.string(),
-  }),
-})
 
-function parse(): PackageJson {
+export const name         = () => field('name'        , isString      )
+export const version      = () => field('version'     , isString      )
+export const description  = () => field('description' , isString      )
+export const dependencies = () => field('dependencies', isStringRecord)
+export const repository   = () => field('repository'  , isRepository  )
 
-  let pkg: unknown
-  try {
-    pkg = readPkg.readPackageSync()
-  } catch (e) {
-    console.error('Could not read package.json:')
-    console.error(e)
+export const nameWithoutScope = async () =>
+  (await name()).replace(/^@.*?\//, '')
+
+export const repoUrl = async () =>
+  (await repository()).url
+    .replace(/^git\+/, '')
+    .replace(/\.git$/, '')
+
+
+// --- TODO: clean-up + use helpers:
+
+const getPkg = memoized(readPkg.readPackage)
+
+async function field<T>(name: string, validate: (v: unknown) => v is T): Promise<T> {
+  const pkg = await getPkg()
+  if (!pkg || typeof pkg !== 'object') {
+    console.error('package.json invalid')
     process.exit(1)
   }
 
-  const res = schema.safeParse(pkg)
-  if (!res.success) {
-    console.error('Could not read expected fields from package.json:')
-    console.error(res.error.message)
+  const value = (pkg as Record<string, unknown>)[name]
+  if (!validate(value)) {
+    console.error(`package.json field '${name}' invalid`)
     process.exit(1)
   }
-  return res.data
+
+  return value
 }
 
-type PackageJson = z.infer<typeof schema>
+const isString = (v: unknown): v is string => typeof v === 'string'
+const isObject = (v: unknown): v is Record<string, unknown> =>
+  v !== null && typeof v === 'object'
 
-const pkgJson = parse()
+function isRepository(v: unknown): v is { url: string } {
+  return isObject(v) && 'url' in v && isString(v.url)
+}
 
-export const name         = pkgJson.name
-export const version      = pkgJson.version
-export const description  = pkgJson.description
-export const dependencies = pkgJson.dependencies
-export const repository   = pkgJson.repository
-
-export const nameWithoutScope = name.replace(/^@.*?\//, '')
-
-export const repoUrl = repository.url
-  .replace(/^git\+/, '')
-  .replace(/\.git$/, '')
-
-export const npmUrl = `https://www.npmjs.com/package/${pkgJson.name}`
-
-
+function isStringRecord(v: unknown): v is Record<string,string> {
+  return isObject(v) && Object.values(v).every(isString)
+}

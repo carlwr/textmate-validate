@@ -18,7 +18,7 @@ async function tryGlobPatterns(patterns: string[]): Promise<string[]> {
 }
 
 export async function getOnigWasmPath(): Promise<string> {
-  const version = getVscOnigVersion()
+  const version = await getVscOnigVersion()
 
   const patterns = [
     `node_modules/**/${VSC_ONIG}@${version}/**/onig.wasm`,
@@ -33,10 +33,12 @@ export async function getOnigWasmPath(): Promise<string> {
   return matches[0]
 }
 
-function getVscOnigVersion(): string {
-  const deps = pkgJson.dependencies
-  if (!deps) {
-    throw new Error('dependencies not found in package.json')
+async function getVscOnigVersion(): Promise<string> {
+  let deps: Record<string,string> | undefined
+  try {
+    deps = await pkgJson.dependencies()
+  } catch (error) {
+    throw new Error(`could not read 'dependencies' from package.json: ${error}`)
   }
 
   const version = deps[VSC_ONIG]

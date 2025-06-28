@@ -43,7 +43,7 @@ async function main() {
   }
 
   if (args['--version']) {
-    console.log(`${pkgJson.nameWithoutScope} ${pkgJson.version}`)
+    console.log(`${await pkgJson.nameWithoutScope()} ${await pkgJson.version()}`)
     process.exit(0)
   }
 
