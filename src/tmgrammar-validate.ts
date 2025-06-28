@@ -143,8 +143,8 @@ async function validateGrammarRegex(re: LocatedRegex): Promise<LocatedRegexResul
 /**
  * The detected path of the `onig.wasm` file. Throws an error if not found.
  */
-function getWasmPath(): string {
-  return getOnigWasmPath()
+async function getWasmPath(): Promise<string> {
+  return await getOnigWasmPath()
 }
 
 /**

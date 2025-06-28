@@ -4,7 +4,7 @@ import { loadVscOnig } from './loader.js'
 import { getOnigWasmPath } from './wasmPath.js'
 
 export async function getVscOnigFixed(): Promise<vscTM.IOnigLib> {
-  const onigPath = getOnigWasmPath()
+  const onigPath = await getOnigWasmPath()
   const wasmData = await readFileAsArrayBuffer(onigPath)
   return await loadVscOnig(wasmData)
 }

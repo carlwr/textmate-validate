@@ -4,9 +4,9 @@ import * as pkgJson from '../pkgJson.js'
 
 const VSC_ONIG = 'vscode-oniguruma'
 
-function tryGlobPatterns(patterns: string[]): string[] {
+async function tryGlobPatterns(patterns: string[]): Promise<string[]> {
   for (const pattern of patterns) {
-    const matches = globby.globbySync(pattern, {
+    const matches = await globby.globby(pattern, {
       dot: true,
       followSymbolicLinks: true
     })
@@ -17,7 +17,7 @@ function tryGlobPatterns(patterns: string[]): string[] {
   return []
 }
 
-export function getOnigWasmPath(): string {
+export async function getOnigWasmPath(): Promise<string> {
   const version = getVscOnigVersion()
 
   const patterns = [
@@ -26,7 +26,7 @@ export function getOnigWasmPath(): string {
     `node_modules/**/*${VSC_ONIG}*/**/onig.wasm`
   ]
 
-  const matches = tryGlobPatterns(patterns)
+  const matches = await tryGlobPatterns(patterns)
   if (!isNonEmpty(matches)) {
     throw new Error(`could not find onig.wasm for ${VSC_ONIG}@${version}.`)
   }

@@ -3,12 +3,13 @@ import * as pkg from '../src/index.js'
 
 describe('getWasmPath()', () => {
 
-  it('should not throw', () => {
-    expect(() => pkg.getWasmPath()).not.toThrow()
+  it.concurrent('should not throw', () => {
+    expect(async () => await pkg.getWasmPath()).not.toThrow()
   })
 
-  it('should return a valid path', () => {
-    const path = pkg.getWasmPath()
+  it.concurrent('should return a valid path', async () => {
+    const path = await pkg.getWasmPath()
+    expect(typeof path).toBe('string')
     expect(path).toMatch(/onig\.wasm$/)
   })
 
