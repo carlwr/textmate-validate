@@ -1,9 +1,9 @@
 import { join } from 'node:path'
 import process from 'node:process'
 import { it, test } from '@fast-check/vitest'
+import { execa } from 'execa'
 import { describe, expect } from 'vitest'
 import * as gr from './generators/grammar.js'
-import { runCmd } from './helpers/runCmd.js'
 import { writeJsonFile } from './helpers/testUtils.js'
 
 
@@ -105,5 +105,5 @@ function nextFile(prefix: string): string {
 }
 
 function run(args: [string, ...string[]]) {
-  return runCmd(['pnpm', 'tsx', 'src/cli.ts', ...args])
+  return execa('pnpm', ['tsx', 'src/cli.ts', ...args], {reject: false})
 }
