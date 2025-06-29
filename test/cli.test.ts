@@ -4,16 +4,13 @@ import { it, test } from '@fast-check/vitest'
 import { describe, expect } from 'vitest'
 import * as gr from './generators/grammar.js'
 import { runCmd } from './helpers/runCmd.js'
-import { obj2file } from './helpers/testUtils.js'
+import { writeJsonFile } from './helpers/testUtils.js'
 
 
 const EXAMPLE_GRAMMAR = join('test', 'fixtures', 'grammar.json')
 
 const aux = '.aux'
 const tempDir = join(aux, 'cli-tests')
-
-// important: total runtime for this test file should be max approx. 1 sec.
-// unclear why, but the below tests do not run fully in parallell
 
 describe.concurrent('with the example .json grammar', () => {
   it.concurrent(
@@ -29,7 +26,7 @@ describe.concurrent('property', () => {
     (gr.simple.name, async ({grammar}) => {
 
     const file = nextFile('simple')
-    obj2file(grammar, file)
+    await writeJsonFile(grammar, file)
 
     const [r0, r1, r2 ] = await Promise.all([
       run([       file]),
@@ -65,7 +62,7 @@ describe.concurrent('property', () => {
     (gr.withInvalid.name, async ({grammar,REtracker}) => {
 
     const file = nextFile('invalid')
-    obj2file(grammar, file)
+    await writeJsonFile(grammar, file)
 
     const invalidREs = REtracker.filter(gr.isInvalidRE).map(gr.stripTag)
 

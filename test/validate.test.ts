@@ -4,7 +4,7 @@ import { afterAll, describe, expect } from 'vitest'
 import * as pkg from '../src/index.js'
 import type { Grammar, TaggedRE, Tracked } from './generators/grammar.js'
 import * as gr from './generators/grammar.js'
-import { obj2file } from './helpers/testUtils.js'
+import { writeJsonFile } from './helpers/testUtils.js'
 
 
 
@@ -90,7 +90,7 @@ const dbgDump = {
 if (dbgDump.enable || dbgInjectTestfail) {
   describe('(debug dump/fail injection)', () => {
     const cfg = {verbose:fc.VerbosityLevel.VeryVerbose}
-    const dumpIt = ( () => obj2file(curGrammar, dbgDump.path) )
+    const dumpIt = ( () => writeJsonFile(curGrammar, dbgDump.path) )
 
     let curGrammar: Grammar | null = null
 
