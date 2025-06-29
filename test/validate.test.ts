@@ -2,8 +2,8 @@ import { join } from 'node:path'
 import { fc, it, test } from '@fast-check/vitest'
 import { afterAll, describe, expect } from 'vitest'
 import * as pkg from '../src/index.js'
-import * as gr from './generators/grammar.js'
 import type { Grammar, TaggedRE, Tracked } from './generators/grammar.js'
+import * as gr from './generators/grammar.js'
 import { obj2file } from './helpers/testUtils.js'
 
 

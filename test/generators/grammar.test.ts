@@ -2,8 +2,8 @@ import { extract, withoutFirstSubstring } from '@carlwr/typescript-extra'
 import { describe, expect } from 'vitest'
 import { describe_for } from '../helpers/describe_for.js'
 import { expectUnique } from '../helpers/testUtils.js'
-import * as grammar from './grammar.js'
 import type { Grammar } from './grammar.js'
+import * as grammar from './grammar.js'
 
 
 function extractRefs(g: Grammar) {

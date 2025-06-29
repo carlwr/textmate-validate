@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
-import { hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra'
 import type { Assert, Eq } from '@carlwr/typescript-extra'
+import { hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra'
 import type { GrammarSource, LocatedRegex, Regex } from './tmgrammar-validate.js'
 
 export function getGrammarRegexes(source: GrammarSource): LocatedRegex[] {

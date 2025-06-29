@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
-import { Ajv } from 'ajv'
 import type { ValidateFunction } from 'ajv'
+import { Ajv } from 'ajv'
 import { describe_for } from '../helpers/describe_for.js'
 import * as grammar from './grammar.js'
 

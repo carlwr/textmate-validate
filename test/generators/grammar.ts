@@ -1,6 +1,6 @@
 import * as fcu from '@carlwr/fastcheck-utils'
 import { nonEmptyUniqueArray as fcu_nonEmptyUnique } from '@carlwr/fastcheck-utils'
-import { type NonEmpty, drain, flatmapNonEmpty, isEmpty, isNonEmpty, isSingle, mapNonEmpty } from '@carlwr/typescript-extra'
+import { drain, flatmapNonEmpty, isEmpty, isNonEmpty, isSingle, mapNonEmpty, type NonEmpty } from '@carlwr/typescript-extra'
 import { fc } from '@fast-check/vitest'
 
 export { deep, simple, withInvalid }

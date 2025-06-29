@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
-import { type Primitive, allUnique } from '@carlwr/typescript-extra'
+import { allUnique, type Primitive } from '@carlwr/typescript-extra'
 import { expect } from 'vitest'
 
 
