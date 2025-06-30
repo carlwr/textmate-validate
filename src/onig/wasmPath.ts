@@ -34,12 +34,12 @@ export function getOnigWasmPath(): string {
 }
 
 function getVscOnigVersion(): string {
-  const DEPS = pkgJson.dependencies
-  if (!DEPS) {
+  const deps = pkgJson.dependencies
+  if (!deps) {
     throw new Error('dependencies not found in package.json')
   }
 
-  const version = DEPS[VSC_ONIG]
+  const version = deps[VSC_ONIG]
   if (!version) {
     throw new Error(`${VSC_ONIG} not found as a dependency in package.json`)
   }
