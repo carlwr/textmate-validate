@@ -1,24 +1,47 @@
 import { readFile } from 'node:fs/promises'
 import type { Assert, Eq } from '@carlwr/typescript-extra'
-import { hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra'
+import { assertNever, hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra'
 import type { GrammarSource, LocatedRegex, Regex } from './tmgrammar-validate.js'
 
 export async function getGrammarRegexes(source: GrammarSource): Promise<LocatedRegex[]> {
   const obj = await getGrammarObj(source)
-  return grammar2regexes(obj).map(pathed2located)
+  return go_grammar(obj).map(pathed2located)
 }
 
-async function getGrammarObj(source: GrammarSource): Promise<unknown> {
-  const sourceObj = typeof source === 'string'
-    ? { kind: 'path', value: source }
+async function getGrammarObj(source: GrammarSource): Promise<GrammarObj> {
+  const src = typeof source === 'string'
+    ? { kind: 'path' as const, value: source }
     : source
 
-  switch (sourceObj.kind) {
-    case "path": return JSON.parse(await readFile(sourceObj.value, 'utf8'))
-    case "str":  return JSON.parse(sourceObj.value.toString())
-    case "raw":  return sourceObj.value
-    default:     throw new Error(`unexpected source kind: ${sourceObj.kind}`)
+  let obj: unknown
+  switch (src.kind) {
+    case "path": obj = JSON.parse(await readFile(src.value, 'utf8')); break
+    case "str":  obj = JSON.parse(src.value.toString()); break
+    case "raw":  obj = src.value; break
+    default:     obj = assertNever(src)
   }
+
+  if (!isGrammarObj(obj)) {
+    throw new Error(`unexpected input grammar - expecting at least one of the keys 'repository' or 'patterns' to be present:\n${JSON.stringify(obj,null,2)}`)
+  }
+
+  return obj
+}
+
+/**
+ * A user-supplied grammar after json parsing.
+ *
+ * It is required to have at least one of the `repository` or `patterns` keys. This is runtime-checked, which provides an early error if the grammar provided by the user is not grammar-like.
+ */
+type GrammarObj =
+  | { repository: unknown }
+  | { patterns  : unknown }
+
+function isGrammarObj(obj: unknown): obj is GrammarObj {
+  return (
+    hasKey(obj, 'repository') ||
+    hasKey(obj, 'patterns'  )
+  )
 }
 
 
@@ -132,7 +155,7 @@ const mapElements =
   mapArrayElements(patchPath(fn))(obj)
 
 // entry-point:
-const grammar2regexes = (obj: unknown) =>
+const go_grammar = (obj: unknown) =>
   [
     ...applyIfKey(obj)(go_repo_captures)('repository'),
     ...applyIfKey(obj)(go_patterns     )('patterns' as const),
