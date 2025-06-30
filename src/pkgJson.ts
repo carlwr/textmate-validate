@@ -36,12 +36,20 @@ function parse(): PackageJson {
 
 type PackageJson = z.infer<typeof schema>
 
-export const pkgJson = parse()
+const pkgJson = parse()
 
-export const name = pkgJson.name.replace(/^@.*?\//, '')
+export const name         = pkgJson.name
+export const version      = pkgJson.version
+export const description  = pkgJson.description
+export const dependencies = pkgJson.dependencies
+export const repository   = pkgJson.repository
 
-export const repoUrl = pkgJson.repository.url
+export const nameWithoutScope = name.replace(/^@.*?\//, '')
+
+export const repoUrl = repository.url
   .replace(/^git\+/, '')
   .replace(/\.git$/, '')
 
 export const npmUrl = `https://www.npmjs.com/package/${pkgJson.name}`
+
+

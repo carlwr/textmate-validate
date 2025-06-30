@@ -2,7 +2,7 @@
 
 import process from 'node:process'
 import arg from 'arg'
-import * as pkg from './pkgJson.js'
+import * as pkgJson from './pkgJson.js'
 import { failed, printResult, validateGrammar } from './tmgrammar-validate.js'
 
 const spec = {
@@ -43,7 +43,7 @@ async function main() {
   }
 
   if (args['--version']) {
-    console.log(`${pkg.name} ${pkg.pkgJson.version}`)
+    console.log(`${pkgJson.nameWithoutScope} ${pkgJson.version}`)
     process.exit(0)
   }
 

@@ -1,6 +1,6 @@
 import { isNonEmpty } from '@carlwr/typescript-extra'
 import * as globby from 'globby'
-import { pkgJson } from '../pkgJson.js'
+import * as pkgJson from '../pkgJson.js'
 
 const VSC_ONIG = 'vscode-oniguruma'
 
