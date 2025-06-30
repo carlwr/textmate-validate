@@ -1,19 +1,20 @@
-import { readFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import type { Assert, Eq } from '@carlwr/typescript-extra'
 import { hasKey, isNonEmpty, isSingle } from '@carlwr/typescript-extra'
 import type { GrammarSource, LocatedRegex, Regex } from './tmgrammar-validate.js'
 
-export function getGrammarRegexes(source: GrammarSource): LocatedRegex[] {
-  return grammar2regexes(getGrammarString(source)).map(pathed2located)
+export async function getGrammarRegexes(source: GrammarSource): Promise<LocatedRegex[]> {
+  const obj = await getGrammarObj(source)
+  return grammar2regexes(obj).map(pathed2located)
 }
 
-function getGrammarString(source: GrammarSource): unknown {
+async function getGrammarObj(source: GrammarSource): Promise<unknown> {
   const sourceObj = typeof source === 'string'
     ? { kind: 'path', value: source }
     : source
 
   switch (sourceObj.kind) {
-    case "path": return JSON.parse(readFileSync(sourceObj.value, 'utf8'))
+    case "path": return JSON.parse(await readFile(sourceObj.value, 'utf8'))
     case "str":  return JSON.parse(sourceObj.value.toString())
     case "raw":  return sourceObj.value
     default:     throw new Error(`unexpected source kind: ${sourceObj.kind}`)

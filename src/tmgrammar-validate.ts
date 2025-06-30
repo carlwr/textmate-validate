@@ -87,8 +87,8 @@ async function validateRegex(re: Regex): Promise<RegexResult> {
 /**
  * Validate a grammar by extracting its regexes and then validating each. Return a value describing the result of the validation.
  */
-function validateGrammar(source: GrammarSource): Promise<GrammarResult> {
-  const regexes = getGrammarRegexes(source)
+async function validateGrammar(source: GrammarSource): Promise<GrammarResult> {
+  const regexes = await getGrammarRegexes(source)
   const result = mapAsync(regexes, validateGrammarRegex)
   return result
 }
