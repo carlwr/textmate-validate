@@ -2,6 +2,7 @@
 
 import arg from 'arg'
 import { build } from 'tsup'
+import { getValuesObj } from './src/pkgJson.js'
 
 const spec = {
   '-q': Boolean,
@@ -27,7 +28,10 @@ async function buildProject() {
     minify: !isDev,
     outDir: outDir,
     silent: isQuiet,
-    onSuccess: `echo 'DONE: tsup: built to "${outDir}/".'`
+    onSuccess: `echo 'DONE: tsup: built to "${outDir}/".'`,
+    define: {
+      '__BUNDLED_PKGJSON_VALUES__': JSON.stringify(await getValuesObj()),
+    },
   })
 
 }
