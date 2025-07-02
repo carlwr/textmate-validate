@@ -14,6 +14,16 @@ const tempDir = join(aux, 'cli-tests')
 
 describe.concurrent('CLI', () => {
 
+  it.concurrent('--help', async () => {
+    const {stdout} = await run(['--help'])
+    expect(stdout).not.toEqual('')
+  })
+
+  it.concurrent('--version', async () => {
+    const {stdout} = await run(['--version'])
+    expect(stdout).toMatch(/textmate-validate/)
+  })
+
   it.concurrent('validation: the example .json grammar', async () => {
     const res = await run([EXAMPLE_GRAMMAR])
     expect(res.exitCode).toBe(0)
