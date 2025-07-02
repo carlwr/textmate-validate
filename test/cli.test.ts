@@ -14,8 +14,10 @@ const tempDir = join(aux, 'cli-tests')
 
 describe.concurrent('CLI', () => {
 
-  it.concurrent('validation: the example .json grammar', () => {
-    validates(['pnpm', 'tsx', 'src/cli.ts', EXAMPLE_GRAMMAR])
+  it.concurrent('validation: the example .json grammar', async () => {
+    const res = await run([EXAMPLE_GRAMMAR])
+    expect(res.exitCode).toBe(0)
+    expect(res.stderr  ).toBe('')
   })
 
   test.concurrent.prop([gr.simple.arb], {numRuns: 1})(
@@ -90,14 +92,6 @@ describe.concurrent('CLI', () => {
 
 function nextFile(prefix: string): string {
   return join(tempDir, `${prefix}-${process.hrtime.bigint()}.json`)
-}
-
-function validates(cmd: readonly [string, ...string[]]) {
-  return async () => {
-    const result = await runCmd(cmd)
-    expect(result.stderr).toEqual('')
-    expect(result.exitCode).toEqual(0)
-  }
 }
 
 function run(args: [string, ...string[]]) {
