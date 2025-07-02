@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs'
+import { access  } from 'node:fs/promises'
 import { join } from 'node:path'
 import { rm_rf } from '@carlwr/typescript-extra'
 import { describe, expect, it } from 'vitest'
@@ -18,6 +18,7 @@ function it_buildsAndValidates(script: string) {
   return async () => {
     const dir = join(aux, `dist_${script}`)
     const cli_js   = join(dir, 'cli.js'  )
+    const index_js = join(dir, 'index.js')
     const buildCmd    = ['pnpm', script, '--out', dir]         as const
     const validateCmd = ['node', join(dir, 'cli.js'), GRAMMAR] as const
     await rm_rf(dir)
@@ -26,8 +27,8 @@ function it_buildsAndValidates(script: string) {
       const result = await runCmd(buildCmd)
       expect(result.stderr  ).toBe('')
       expect(result.exitCode).toBe(0)
-      expect(join(dir, 'cli.js'  )).toSatisfy(existsSync)
-      expect(join(dir, 'index.js')).toSatisfy(existsSync)
+      await expect(access(cli_js  )).resolves.not.toThrow()
+      await expect(access(index_js)).resolves.not.toThrow()
     })
 
     it.concurrent.each(['--help', '--version'])('prints %s', async (arg) => {

@@ -1,13 +1,13 @@
-import { readFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import { Ajv } from 'ajv'
-import { describe, expect, it } from 'vitest'
+import { expect, it } from 'vitest'
 import * as pkg from '../src/index.js'
 
 const TM_SCHEMA = 'test/schemas/tmLanguage.schema.json'
 
-function schemaCheck(g: unknown) {
+async function schemaCheck(g: unknown) {
   const ajv = new Ajv()
-  const schema = readFileSync(TM_SCHEMA, 'utf8')
+  const schema = await readFile(TM_SCHEMA, 'utf8')
   const validate = ajv.compile(JSON.parse(schema))
   if (!validate(g)) {
     throw new Error(ajv.errorsText(validate.errors))
@@ -75,19 +75,19 @@ function sort(xs: pkg.LocatedRegex[]): pkg.LocatedRegex[] {
   return xs.sort((a, b) => sortBy(a).localeCompare(sortBy(b)))
 }
 
-it('example grammar passes schema validation', () => {
-  expect(() => schemaCheck(exampleGrammar)).not.toThrow()
+it.concurrent('(prep: example grammar passes schema validation)', async () => {
+  await expect(schemaCheck(exampleGrammar)).resolves.not.toThrow()
 })
 
-describe('parsing reports correct path/location', async () => {
+it.concurrent('parsing reports correct path/location', async () => {
 
   const source = {kind:'str' as const, value:JSON.stringify(exampleGrammar) }
   const result = await pkg.validateGrammar(source)
   const locatedResult = sort(getLocated(result))
-  it('passes', () => {
+  it.concurrent('passes', () => {
     expect(result).toSatisfy(pkg.passed)
   })
-  it('reports the expected paths', () => {
+  it.concurrent('reports the expected paths', () => {
     expect(locatedResult).toEqual(locatedExpected)
   })
 
