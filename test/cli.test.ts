@@ -4,7 +4,7 @@ import { it, test } from '@fast-check/vitest'
 import { execa } from 'execa'
 import { describe, expect } from 'vitest'
 import * as gr from './generators/grammar.js'
-import { writeJsonFile } from './helpers/testUtils.js'
+import { tsx, writeJsonFile } from './helpers/testUtils.js'
 
 
 const EXAMPLE_GRAMMAR = join('test', 'fixtures', 'grammar.json')
@@ -15,7 +15,7 @@ const tempDir = join(aux, 'cli-tests')
 describe.concurrent('CLI', () => {
 
   it.concurrent('--is-bundled', async () => {
-    const {stdout} = await execa('pnpm',['tsx','src/cli.ts','--is-bundled'], {reject: false})
+    const {stdout} = await execa(tsx,['src/cli.ts','--is-bundled'], {reject: false})
     expect(stdout).toMatch(/false/)
   })
 
@@ -110,5 +110,5 @@ function nextFile(prefix: string): string {
 }
 
 function run(args: [string, ...string[]]) {
-  return execa('pnpm', ['tsx', 'src/cli.ts', ...args], {reject: false})
+  return execa(tsx, ['src/cli.ts', ...args], {reject: false})
 }
