@@ -29,6 +29,11 @@ function it_buildsAndValidates(script: string) {
       await expect(access(index_js)).resolves.not.toThrow()
     })
 
+    it.concurrent('prints --is-bundled', async () => {
+      const result: Result = await execa(node, [cli_js,'--is-bundled'])
+      expect(result.stdout).toMatch(/true/)
+    })
+
     it.concurrent.each(['--help', '--version'])('prints %s', async (arg) => {
       const result: Result = await execa(node, [cli_js, arg])
       expect(result.stdout).toMatch(/textmate-validate/)

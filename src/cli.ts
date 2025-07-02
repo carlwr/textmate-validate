@@ -11,6 +11,7 @@ const spec = {
   '--verbose'    : arg.COUNT, '-v': '--verbose',
   '--version'    : Boolean  , '-V': '--version',
   '--help'       : Boolean  , '-h': '--help'   ,
+  '--is-bundled' : Boolean  , // don't document; for testing
 } as const
 
 const helpText = `
@@ -45,6 +46,16 @@ async function main() {
   if (args['--version']) {
     console.log(`${await pkgJson.nameWithoutScope()} ${await pkgJson.version()}`)
     process.exit(0)
+  }
+
+  if (args['--is-bundled']) {
+    if (pkgJson.isBundled()) {
+      console.log('true')
+      process.exit(0)
+    } else {
+      console.log('false')
+      process.exit(1)
+    }
   }
 
   const verbosity = clamp(args['--verbose'] ?? 0, [0,1,2] as const)

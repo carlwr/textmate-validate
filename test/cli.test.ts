@@ -14,6 +14,11 @@ const tempDir = join(aux, 'cli-tests')
 
 describe.concurrent('CLI', () => {
 
+  it.concurrent('--is-bundled', async () => {
+    const {stdout} = await execa('pnpm',['tsx','src/cli.ts','--is-bundled'], {reject: false})
+    expect(stdout).toMatch(/false/)
+  })
+
   it.concurrent('--help', async () => {
     const {stdout} = await run(['--help'])
     expect(stdout).not.toEqual('')
