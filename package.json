@@ -79,7 +79,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
     "@carlwr/fastcheck-utils": "^0.3.0",
-    "@carlwr/typescript-extra": "^0.4.0",
+    "@carlwr/typescript-extra": "^0.5.0",
     "@fast-check/vitest": "^0.2.1",
     "@types/node": "^24.0.3",
     "ajv": "^8.17.1",

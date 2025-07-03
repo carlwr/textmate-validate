@@ -34,8 +34,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(fast-check@4.1.1)
       '@carlwr/typescript-extra':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.5.0
+        version: 0.5.0
       '@fast-check/vitest':
         specifier: ^0.2.1
         version: 0.2.1(vitest@3.2.4(@types/node@24.0.3)(tsx@4.20.3)(yaml@2.8.0))
@@ -133,8 +133,8 @@ packages:
     peerDependencies:
       fast-check: '>=3.0.0'
 
-  '@carlwr/typescript-extra@0.4.0':
-    resolution: {integrity: sha512-lQOTo+gDKbfXx+fe4aK8QtY6ptwtikYxkSHIG5K3KVL1Ym+JfCCKT8admYtRD9LvPcozrxLkvnkoioxrrbSJBQ==}
+  '@carlwr/typescript-extra@0.5.0':
+    resolution: {integrity: sha512-av0gPCoXF8/4GhRVLeWcxWuypjmusHVtcp9sRe2UdEZ9KThbliE1t4fE/rn9bfDm+fAMZ+S7Zp6Q2//Cmphaow==}
     engines: {node: '>=20.0.0'}
 
   '@esbuild/aix-ppc64@0.25.5':
@@ -1318,7 +1318,7 @@ snapshots:
     dependencies:
       fast-check: 4.1.1
 
-  '@carlwr/typescript-extra@0.4.0': {}
+  '@carlwr/typescript-extra@0.5.0': {}
 
   '@esbuild/aix-ppc64@0.25.5':
     optional: true
