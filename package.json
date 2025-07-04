@@ -50,7 +50,7 @@
     "prebuild": "pnpm run typecheck && pnpm run lint",
     "docs": "typedoc",
     "prepublishOnly": "pnpm run qa >/dev/null && tsx build.ts && pnpm run docs",
-    "publish:dry": "pnpm publish --dry-run",
+    "publish:dry": "pnpm publish --dry-run --no-git-checks",
     "publish:release": "pnpm publish",
     "version:patch": "pnpm version patch",
     "version:minor": "pnpm version minor",
