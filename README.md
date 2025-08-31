@@ -136,10 +136,69 @@ The package is intended to be used as a validation check for generated or hand-w
   - using e.g. the [tmlanguage.json] schema - which VSCode does not officially conform to, but is likely yet useful
   - note that schema validation serves the purpose of checking the _structure_ of the grammar, something this package does not do
 - testing
-  - [vscode-tmgrammar-test] can be used for testing how a grammar assigns scopes for a set of test cases
+  - [vscode-tmgrammar-test] can be used for testing how a grammar assigns scopes for a set of test cases (test file syntax: see [_SublimeText testing syntax documentation_][sublimetext-testing])
+
+
+## Useful links on TextMate grammars
+
+General:
+* [_Building a syntax highlighting extension for VS Code_][borama-blog] (blog, `borama`)
+* [_Writing a TextMate Grammar: Some Lessons Learned_][apeth-blog] (blog, `apeth` 2014)
+* `*.md` files in [`documentation/`][RedCMD-tm] of `RedCMD/TmLanguage-Syntax-Highlighter`
+
+From Macromates:
+* [_12 Language Grammars_][macromates-ch12] (docs)
+  * including [_12.4 \[Scope\] Naming Conventions_][macromates-ch12.4]
+* [_13. Scope Selectors_][macromates-ch13] (docs)
+* [_Introduction to scopes_][macromates-blog] (blog)
+* (note: not VS Code-specific)
+
+
+### Per-topic
+
+TextMate grammar data model and structure:
+* [`apeth`s blog][apeth-blog]
+* [`rawGrammar.ts`][vsc-tm-rules-src] of `microsoft/vscode-textmate`
+  * i.e. from the actual VS Code textMate grammar parsing source code
+  * the interface `IRawGrammar` is the entry-point/top-level type
+* [`documentation/rules.md`][RedCMD-tm-rules] of `RedCMD/TmLanguage-Syntax-Highlighter`
+
+Scope selectors:
+* [_Optimizations in Syntax Highlighting_][vsc-blog], [\[archived\]][vsc-blog-archived] (VS Code official blog, Alexandru Dima 2017)
+  * includes details on ranking in case of multiple matching selectors
+* [_13. Scope Selectors_][macromates-ch13] (Macromate docs)
+
+Scope naming conventions:
+* [_Scope naming_][sublimetext-naming] (SublimeText docs)
+* [_12.4 \[Scope\] Naming Conventions_][macromates-ch12.4] (Macromate docs)
+* [`apeth`s blog][apeth-blog], section _Standard Scopes_
+  * comprehensive, and includes actual use by common themes
+
+References:
+* [_More Links_][RedCMD-tm-refs] section of `documentation/README.md` of `RedCMD/TmLanguage-Syntax-Highlighter`
+
 
 [vscode-textmate]: https://github.com/microsoft/vscode-textmate
 [vscode-oniguruma]: https://github.com/microsoft/vscode-oniguruma
 [tmlanguage.json]: https://json.schemastore.org/tmlanguage.json
 [vscode-tmgrammar-test]: https://github.com/PanAeon/vscode-tmgrammar-test
 [ajv]: https://github.com/ajv-validator/ajv
+
+[vsc-tm-rules-src]: https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts
+[vsc-blog]: https://code.visualstudio.com/blogs/2017/02/08/syntax-highlighting-optimizations
+[vsc-blog-archived]: https://web.archive.org/web/20250720095218/https://code.visualstudio.com/blogs/2017/02/08/syntax-highlighting-optimizations
+
+[borama-blog]: https://dev.to/borama/building-a-syntax-highlighting-extension-for-vs-code-594?utm_source=shortruby&ref=shortruby.com
+[apeth-blog]: https://www.apeth.com/nonblog/stories/textmatebundle.html
+
+[macromates-ch12]: https://macromates.com/manual/en/language_grammars
+[macromates-ch12.4]: https://manual.macromates.com/en/language_grammars#naming_conventions
+[macromates-ch13]: https://macromates.com/manual/en/scope_selectors
+[macromates-blog]: https://macromates.com/blog/2005/introduction-to-scopes/
+
+[sublimetext-testing]: https://www.sublimetext.com/docs/syntax.html#testing
+[sublimetext-naming]: https://www.sublimetext.com/docs/scope_naming.html
+
+[RedCMD-tm]: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation
+[RedCMD-tm-rules]: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/rules.md
+[RedCMD-tm-refs]: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/README.md#more-links
