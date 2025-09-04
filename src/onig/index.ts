@@ -13,3 +13,9 @@ async function readFileAsArrayBuffer(filePath: string): Promise<ArrayBuffer> {
   const fileData = await readFilePromise(filePath)
   return new Blob([new Uint8Array(fileData)]).arrayBuffer()
 }
+
+/* other example on loading oniguruma:
+- https://github.com/vsce-toolroom/vscode-textmate-languageservice
+  - const onigurumaPromise = TextmateLanguageService.utils.getOniguruma()
+- shiki js
+*/
