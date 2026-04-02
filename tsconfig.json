@@ -18,6 +18,7 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "allowJs": true,
+    "ignoreDeprecations": "6.0",
     "noErrorTruncation": true,
     "types": ["node"],
     "typeRoots": ["./node_modules/@types"]

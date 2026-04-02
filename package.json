@@ -79,8 +79,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.10",
-    "@carlwr/fastcheck-utils": "^0.4.0",
-    "@carlwr/typescript-extra": "^0.6.0",
+    "@carlwr/fastcheck-utils": "^0.5.0",
+    "@carlwr/typescript-extra": "^0.6.1",
     "@fast-check/vitest": "^0.3.0",
     "@types/node": "^25.5.0",
     "ajv": "^8.18.0",
@@ -88,7 +88,7 @@
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typedoc": "^0.28.18",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.2",
     "vitest": "^3.2.4",
     "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
   },
