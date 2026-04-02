@@ -69,7 +69,7 @@
     "qa:all": "pnpm run typecheck && pnpm run lint && pnpm test:all && pnpm run style",
     "LAST_dummy": "false"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.23.0",
   "dependencies": {
     "arg": "^5.0.2",
     "globby": "^14.1.0",
