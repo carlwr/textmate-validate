@@ -1,5 +1,5 @@
 import { join } from 'node:path'
-import { fc, it, test } from '@fast-check/vitest'
+import { fc, test } from '@fast-check/vitest'
 import { afterAll, describe, expect } from 'vitest'
 import * as pkg from '../src/index.js'
 import type { Grammar, TaggedRE, Tracked } from './generators/grammar.js'
@@ -26,11 +26,11 @@ async function prop_failing(gg: Tracked) {
 }
 
 describe('grammar validation', () => {
-  it('passes, if only valid REs', () => {
+  describe('passes, if only valid REs', () => {
     test.prop([gr.simple.arb])(gr.simple.name, prop_passing)
     test.prop([gr.deep.arb  ])(gr.deep.name  , prop_passing)
   })
-  it('fails, if invalid REs', () => {
+  describe('fails, if invalid REs', () => {
     test.prop([gr.withInvalid.arb])(gr.withInvalid.name, prop_failing)
   })
 })
