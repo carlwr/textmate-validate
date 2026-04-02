@@ -56,7 +56,6 @@
     "version:minor": "pnpm version minor",
     "version:major": "pnpm version major",
     "lint": "biome check",
-    "imports:sort": "biome check --linter-enabled=false --organize-imports-enabled=true --write",
     "typecheck": "tsc --noEmit",
     "style": "scripts/checkStyle",
     "test": "vitest run -t '^(?!@dist)'",
@@ -79,7 +78,7 @@
     "zzz_LAST_dummy": "npm:empty-npm-package@1.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
+    "@biomejs/biome": "^2.4.10",
     "@carlwr/fastcheck-utils": "^0.3.0",
     "@carlwr/typescript-extra": "^0.5.0",
     "@fast-check/vitest": "^0.2.1",
