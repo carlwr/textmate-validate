@@ -8,4 +8,5 @@
     "editor.defaultFormatter": "biomejs.biome",
     "editor.formatOnSave": true,
   },
+  "prettier.semi": false,
 }
