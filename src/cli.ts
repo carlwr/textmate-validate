@@ -2,6 +2,7 @@
 
 import process from 'node:process'
 import arg from 'arg'
+import { setOnigWasmPath } from './onig/wasmPath.js'
 import * as pkgJson from './pkgJson.js'
 import { failed, printResult, validateGrammar } from './tmgrammar-validate.js'
 
@@ -11,6 +12,7 @@ const spec = {
   '--verbose'    : arg.COUNT, '-v': '--verbose',
   '--version'    : Boolean  , '-V': '--version',
   '--help'       : Boolean  , '-h': '--help'   ,
+  '--onig-wasm'  : String   ,
   '--is-bundled' : Boolean  , // don't document; for testing
 } as const
 
@@ -33,6 +35,7 @@ Options:
   -v, --verbose    verbose (-vv for more verbose)
   -V, --version    show version
   -h, --help       show help
+  --onig-wasm=<f>  path to onig.wasm (overrides auto-detection)
 `
 
 async function main() {
@@ -56,6 +59,10 @@ async function main() {
       console.log('false')
       process.exit(1)
     }
+  }
+
+  if (args['--onig-wasm']) {
+    setOnigWasmPath(args['--onig-wasm'])
   }
 
   const verbosity = clamp(args['--verbose'] ?? 0, [0,1,2] as const)

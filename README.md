@@ -127,6 +127,9 @@ Oniguruma engine:
   - drawback: fragility:
     - this package must use heuristics to dynamically locate the path of the `onig.wasm` file that [vscode-oniguruma] includes
     - the heuristics used are well tested and e.g. symlinked paths will be followed - but could likely fail for less common setups
+    - if heuristic detection fails, the path can be overridden:
+      - CLI: `--onig-wasm=<path-to-onig.wasm>`
+      - library: `setOnigWasmPath(<path-to-onig.wasm>)`
 
 ## Intended use
 

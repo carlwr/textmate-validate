@@ -35,6 +35,23 @@ describe.concurrent('CLI', () => {
     expect(res.stderr  ).toBe('')
   })
 
+  it.concurrent('--help mentions --onig-wasm', async () => {
+    const {stdout} = await run(['--help'])
+    expect(stdout).toMatch(/--onig-wasm/)
+  })
+
+  it.concurrent('--onig-wasm=<valid path> succeeds', async () => {
+    const wasm = await (await import('../src/index.js')).getWasmPath()
+    const res = await run([`--onig-wasm=${wasm}`, EXAMPLE_GRAMMAR])
+    expect(res.exitCode).toBe(0)
+  })
+
+  it.concurrent('--onig-wasm=<missing path> fails with clear error', async () => {
+    const res = await run(['--onig-wasm=/tmp/__no_such_onig_wasm__.wasm', EXAMPLE_GRAMMAR])
+    expect(res.exitCode).not.toBe(0)
+    expect(String(res.stderr)).toMatch(/override path not readable/)
+  })
+
   test.concurrent.prop([gr.simple.arb], {numRuns: 1})(
     `validation: property test: ${gr.simple.name}`,
     async ({grammar}) => {

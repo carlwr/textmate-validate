@@ -1,8 +1,20 @@
+import { access } from 'node:fs/promises'
 import { isNonEmpty } from '@carlwr/typescript-extra'
 import * as globby from 'globby'
 import * as pkgJson from '../pkgJson.js'
 
 const VSC_ONIG = 'vscode-oniguruma'
+
+let overridePath: string | undefined
+
+/**
+ * Override the heuristic detection of the `onig.wasm` file.
+ *
+ * Pass `undefined` to clear the override and resume heuristic detection.
+ */
+export function setOnigWasmPath(path: string | undefined): void {
+  overridePath = path
+}
 
 async function tryGlobPatterns(patterns: string[]): Promise<string[]> {
   for (const pattern of patterns) {
@@ -18,6 +30,14 @@ async function tryGlobPatterns(patterns: string[]): Promise<string[]> {
 }
 
 export async function getOnigWasmPath(): Promise<string> {
+  if (overridePath !== undefined) {
+    try { await access(overridePath) }
+    catch {
+      throw new Error(`onig.wasm override path not readable: ${overridePath}`)
+    }
+    return overridePath
+  }
+
   const version = await getVscOnigVersion()
 
   const patterns = [
