@@ -68,6 +68,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:dev
       - run: pnpm pack --out ${{ runner.temp }}/pack.tgz
 
       - uses: actions/setup-node@v4
