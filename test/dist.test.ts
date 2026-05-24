@@ -23,7 +23,7 @@ function it_buildsAndValidates(script: string) {
 
     it.sequential('builds', async () => {
       const result: Result = await execa('pnpm', [script,'--out',dir])
-      expect(result.stderr  ).toBe('')
+      expect(stripPnpmBanner(result.stderr)).toBe('')
       expect(result.exitCode).toBe(0)
       await expect(access(cli_js  )).resolves.not.toThrow()
       await expect(access(index_js)).resolves.not.toThrow()
@@ -46,4 +46,13 @@ function it_buildsAndValidates(script: string) {
       expect(result.exitCode).toBe(0)
     })
   }
+}
+
+// pnpm 11 writes `$ <command>` lines to stderr for each script invocation; strip them so tests can assert no real warnings
+function stripPnpmBanner(stderr: Result['stderr']): string {
+  return String(stderr ?? '')
+    .split('\n')
+    .filter(line => !/^\$ /.test(line))
+    .join('\n')
+    .trim()
 }

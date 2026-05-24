@@ -9,10 +9,5 @@ export default defineConfig({
     environment: 'node',
     testTimeout: 30000,
     pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: false,
-      },
-    },
   },
 })
