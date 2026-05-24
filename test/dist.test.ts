@@ -16,7 +16,7 @@ describe.concurrent('@dist dev-build' , it_buildsAndValidates('build:dev'))
 
 function it_buildsAndValidates(script: string) {
   return async () => {
-    const dir      = join(aux, `dist_${script}`)
+    const dir      = join(aux, `dist_${script.replace(/:/g, '_')}`)  // colon is invalid in Windows paths
     const cli_js   = join(dir, 'cli.js'  )
     const index_js = join(dir, 'index.js')
     await rm_rf(dir)

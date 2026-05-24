@@ -64,7 +64,8 @@ describe.concurrent('@dist simulate use in consuming package', () => {
 
 })
 
-describe.concurrent('@dist simulate use with npx', () => {
+// not concurrent: both tests `npx`-install the same tarball, which races on the shared `~/.npm/_npx/<hash>/` cache (ENOTEMPTY rmdir) on some Node/OS combinations
+describe('@dist simulate use with npx', () => {
   it('runs the CLI with --version', async () => {
 
     const args = ['npx','--package', pack, 'textmate-validate','--version']
@@ -231,7 +232,7 @@ async function acquireDistDirLock() {
 }
 
 async function sysTempdir(): Promise<AbsDir> {
-  return await mkdtemp(tmpdir())
+  return await mkdtemp(join(tmpdir(), 'tm-validate-'))
 }
 
 async function auxTempdir(): Promise<AbsDir> {
