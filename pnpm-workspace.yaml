@@ -1,2 +1,7 @@
 onlyBuiltDependencies:
   - esbuild
+
+# pnpm 11 install-time policies default to fatal; relax to warn-only so a fresh dep bump doesn't block installs/CI for ~24h
+minimumReleaseAge: 0
+minimumReleaseAgeStrict: false
+strictDepBuilds: false
