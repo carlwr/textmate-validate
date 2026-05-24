@@ -57,7 +57,7 @@ npx @carlwr/textmate-validate --help  # show help
 
 ```
 
-If the bundled Oniguruma WASM cannot be auto-detected (see [Oniguruma engine](#oniguruma-engine)), point at it explicitly with `--onig-wasm=`:
+To use a specific `onig.wasm` instead of letting auto-detection pick one (see [Oniguruma engine](#oniguruma-engine)), pass `--onig-wasm=`:
 
 ```bash
 npx @carlwr/textmate-validate --onig-wasm=./path/to/onig.wasm grammar.json
@@ -136,7 +136,7 @@ Validating the extracted regexes:
   - drawback: fragility:
     - this package must use heuristics to dynamically locate the path of the `onig.wasm` file that [vscode-oniguruma] includes
     - the heuristics used are well tested and e.g. symlinked paths will be followed - but could likely fail for less common setups
-    - if heuristic detection fails, the path can be overridden:
+    - the auto-detection can be bypassed by specifying the path directly; when specified, only that file is used:
       - CLI: `--onig-wasm=<path-to-onig.wasm>`
       - library: `setOnigWasmPath(<path-to-onig.wasm>)`
 

@@ -64,7 +64,7 @@ describe.concurrent('@dist simulate use in consuming package', () => {
 
 })
 
-// not concurrent: both tests `npx`-install the same tarball, which races on the shared `~/.npm/_npx/<hash>/` cache (ENOTEMPTY rmdir) on some Node/OS combinations
+// serial: both tests `npx`-install the same tarball — shared `~/.npm/_npx/<hash>/` races on rmdir
 describe('@dist simulate use with npx', () => {
   it('runs the CLI with --version', async () => {
 

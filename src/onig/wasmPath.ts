@@ -10,11 +10,7 @@ const VSC_ONIG = 'vscode-oniguruma'
 
 let overridePath: string | undefined
 
-/**
- * Override the heuristic detection of the `onig.wasm` file.
- *
- * Pass `undefined` to clear the override and resume heuristic detection.
- */
+/** Override (or, with `undefined`, restore) heuristic detection of `onig.wasm`. */
 export function setOnigWasmPath(path: string | undefined): void {
   overridePath = path
 }
@@ -33,7 +29,7 @@ async function hasNodeModules(dir: string): Promise<boolean> {
   catch { return false }
 }
 
-// search both `process.cwd()` and ancestors of `import.meta.url` that contain a `node_modules` dir; this means we find the wasm regardless of how the package was installed (locally, globally, via `npx`/`npm exec`, in a pnpm `.pnpm/` virtual store, etc.)
+// search `node_modules`-containing ancestors of `import.meta.url` plus `process.cwd()`; covers local/global/npx/pnpm-store installs
 async function collectSearchDirs(selfUrl: string): Promise<string[]> {
   const dirs: string[] = []
   const seen = new Set<string>()

@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        # pnpm 11 requires Node >=22.13; the package itself supports Node >=20 but isn't tested here on it
+        # pnpm 11 needs Node >=22.13; Node 20 isn't tested here, although the package supports it
         node: ['22', '24']
     steps:
       - uses: actions/checkout@v4
