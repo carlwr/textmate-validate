@@ -1,6 +1,8 @@
 # `textmate-validate`
 
+[![ci](https://github.com/carlwr/textmate-validate/actions/workflows/ci.yaml/badge.svg)](https://github.com/carlwr/textmate-validate/actions/workflows/ci.yaml)
 [![docs](https://github.com/carlwr/textmate-validate/actions/workflows/docs.yaml/badge.svg)](https://github.com/carlwr/textmate-validate/actions/workflows/docs.yaml)
+[![release](https://img.shields.io/github/v/release/carlwr/textmate-validate?logo=github)](https://github.com/carlwr/textmate-validate/releases)
 
 Validation of VSCode TextMate grammars.
 
@@ -53,6 +55,12 @@ npx @carlwr/textmate-validate --verbose --verbose grammar.json
 
 npx @carlwr/textmate-validate --help  # show help
 
+```
+
+If the bundled Oniguruma WASM cannot be auto-detected (see [Oniguruma engine](#oniguruma-engine)), point at it explicitly with `--onig-wasm=`:
+
+```bash
+npx @carlwr/textmate-validate --onig-wasm=./path/to/onig.wasm grammar.json
 ```
 
 <!-- test:
@@ -119,7 +127,8 @@ Validating the extracted regexes:
 - if Oniguruma complains, the regex is considered invalid
 - the error strings this package reports are those produced by Oniguruma
 
-Oniguruma engine:
+## Oniguruma engine
+
 - the package uses the Oniguruma WASM binary of [vscode-oniguruma]
 - this is a design decision and comes with benefits and drawbacks:
   - benefit: validation accuracy:
