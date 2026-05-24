@@ -1,10 +1,19 @@
-# `textmate-validate`
+<div align="center">
 
-[![ci](https://github.com/carlwr/textmate-validate/actions/workflows/ci.yaml/badge.svg)](https://github.com/carlwr/textmate-validate/actions/workflows/ci.yaml)
-[![docs](https://github.com/carlwr/textmate-validate/actions/workflows/docs.yaml/badge.svg)](https://github.com/carlwr/textmate-validate/actions/workflows/docs.yaml)
+# 🔍 &nbsp;`textmate-validate`
+
+*Validation of VSCode TextMate grammars.*
+
+[![ci](https://img.shields.io/github/actions/workflow/status/carlwr/textmate-validate/ci.yaml?branch=main&logo=github&label=ci)](https://github.com/carlwr/textmate-validate/actions/workflows/ci.yaml)
+[![docs](https://img.shields.io/badge/docs-online-blue)](https://carlwr.github.io/textmate-validate)
+[![npm](https://img.shields.io/npm/v/@carlwr/textmate-validate?logo=npm)](https://www.npmjs.com/package/@carlwr/textmate-validate)
 [![release](https://img.shields.io/github/v/release/carlwr/textmate-validate?logo=github)](https://github.com/carlwr/textmate-validate/releases)
+[![node](https://img.shields.io/node/v/@carlwr/textmate-validate?logo=nodedotjs)](https://www.npmjs.com/package/@carlwr/textmate-validate)
+[![license](https://img.shields.io/npm/l/@carlwr/textmate-validate)](https://github.com/carlwr/textmate-validate/blob/main/LICENSE)
 
-Validation of VSCode TextMate grammars.
+</div>
+
+---
 
 Links:
 * API docs: [carlwr.github.io/textmate-validate](https://carlwr.github.io/textmate-validate)
@@ -17,13 +26,11 @@ The following examples use an example grammar `grammar.json` that can be created
 
 ```bash
 cat >grammar.json <<EOF
-
 { "patterns": [
     { "match": ".*" },       `# <- a valid regex`
     { "match": ".)" }        `# <- INVALID REGEX!`
   ]
 }
-
 EOF
 ```
 
@@ -57,7 +64,7 @@ npx @carlwr/textmate-validate --help  # show help
 
 ```
 
-To use a specific `onig.wasm` instead of letting auto-detection pick one (see [Oniguruma engine](#oniguruma-engine)), pass `--onig-wasm=`:
+To use a specific `onig.wasm` instead of letting auto-detection pick one (see [Oniguruma engine](#oniguruma-engine)):
 
 ```bash
 npx @carlwr/textmate-validate --onig-wasm=./path/to/onig.wasm grammar.json
@@ -112,7 +119,7 @@ mkdir -p .aux
 
 For a given TextMate grammar, the regexes in it are extracted and then validated.
 
-Validation is done by exercising each regex with the Oniguruma regex engine, which is what VSCode uses.
+Validation is done by exercising each regex with the Oniguruma regex engine, which is what VS Code uses.
 
 ## How?
 
@@ -129,23 +136,26 @@ Validating the extracted regexes:
 
 ## Oniguruma engine
 
-- the package uses the Oniguruma WASM binary of [vscode-oniguruma]
-- this is a design decision and comes with benefits and drawbacks:
-  - benefit: validation accuracy:
-    - validation is done with the same library (e.g. compiled with the same compilation flags) that will be used by VSCode when the grammar is used at later points
-  - drawback: fragility:
+The package uses the Oniguruma WASM binary of [vscode-oniguruma].
+
+This is a design decision and comes with benefits and drawbacks:
+
+  - **benefit:** _validation accuracy:_
+    - validation is done with the same library (e.g. compiled with the same compilation flags) that will be used by VS Code when the grammar is used at later points
+  - **drawback:** _fragility:_
     - this package must use heuristics to dynamically locate the path of the `onig.wasm` file that [vscode-oniguruma] includes
-    - the heuristics used are well tested and e.g. symlinked paths will be followed - but could likely fail for less common setups
-    - the auto-detection can be bypassed by specifying the path directly; when specified, only that file is used:
-      - CLI: `--onig-wasm=<path-to-onig.wasm>`
-      - library: `setOnigWasmPath(<path-to-onig.wasm>)`
+    - the heuristics used are well tested (CI runs tests on Ubuntu, macOS and Windows; each on all supported Node versions) - but could likely fail for less common setups
+
+The auto-detection can be bypassed by specifying the path directly; when specified, only that file is used:
+- CLI: `--onig-wasm=<path-to-onig.wasm>`
+- library: `setOnigWasmPath(<path-to-onig.wasm>)`
 
 ## Intended use
 
 The package is intended to be used as a validation check for generated or hand-written TextMate grammars for VSCode, typically as part of a build script, CI pipeline, prepublish `package.json` lifecycle hook, etc. It complements the following that are also useful in a similar context:
 
 - schema validation
-  - using e.g. the [tmlanguage.json] schema - which VSCode does not officially conform to, but is likely yet useful
+  - using e.g. the [tmlanguage.json] schema - which VS Code does not officially conform to, but is likely yet useful
   - note that schema validation serves the purpose of checking the _structure_ of the grammar, something this package does not do
 - testing
   - [vscode-tmgrammar-test] can be used for testing how a grammar assigns scopes for a set of test cases (test file syntax: see [_SublimeText testing syntax documentation_][sublimetext-testing])
@@ -214,3 +224,4 @@ References:
 [RedCMD-tm]: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation
 [RedCMD-tm-rules]: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/rules.md
 [RedCMD-tm-refs]: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/README.md#more-links
+
