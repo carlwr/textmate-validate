@@ -1,9 +1,10 @@
 onlyBuiltDependencies:
   - esbuild
 
-# pnpm 11 supply-chain defaults block fresh dep bumps for ~24h; soften here
-minimumReleaseAge: 0
-minimumReleaseAgeStrict: false
 strictDepBuilds: false
+
+# defaults for minimum-release-age are kept; list transitive deps audited as trusted
+minimumReleaseAgeExclude:
+  - markdown-it@14.2.0
 allowBuilds:
   esbuild: set this to true or false
