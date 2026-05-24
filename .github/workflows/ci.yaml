@@ -18,18 +18,18 @@ jobs:
         # pnpm 11 needs Node >=22.13; Node 20 covered by the separate node20-smoke job
         node: ['22', '24']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - id: setup-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
 
       # cache ~/.npm so the npx tests in test/dist-ext.test.ts don't refetch transitive deps each run
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.npm
           key: npm-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -58,11 +58,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # use a newer Node to pack with pnpm (need pnpm 11), then switch to Node 20 for the consumer-side install/run
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: '24'
           cache: pnpm
@@ -71,7 +71,7 @@ jobs:
       - run: pnpm run build:dev
       - run: pnpm pack --out ${{ runner.temp }}/pack.tgz
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '20'
 
