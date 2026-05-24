@@ -73,6 +73,17 @@ describe.concurrent('@dist simulate use with npx', () => {
     await expect(run).resolves.toMatch(/textmate-validate/)
 
   })
+
+  it('validates a grammar from an isolated cwd', async () => {
+    const dir = await sysTempdir()
+    const grammarFile = join(dir, 'g.json')
+    await writeJsonFile({patterns:[{match:'.*'}]}, grammarFile)
+    const args = ['--yes','--package', pack, 'textmate-validate', 'g.json']
+    const res = await execa('npx', args, {cwd: dir, reject: false})
+    expect(String(res.stderr)).not.toMatch(/could not find onig\.wasm/)
+    expect(res.exitCode).toBe(0)
+    await rm_rf(dir)
+  })
 })
 
 describe.concurrent('@dist exits non-zero when onig.wasm cannot be found', () => {

@@ -1,4 +1,7 @@
 import { access } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
+import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 import { isNonEmpty } from '@carlwr/typescript-extra'
 import * as globby from 'globby'
 import * as pkgJson from '../pkgJson.js'
@@ -16,17 +19,35 @@ export function setOnigWasmPath(path: string | undefined): void {
   overridePath = path
 }
 
-async function tryGlobPatterns(patterns: string[]): Promise<string[]> {
-  for (const pattern of patterns) {
-    const matches = await globby.globby(pattern, {
-      dot: true,
-      followSymbolicLinks: true
-    })
-    if (matches.length > 0) {
-      return matches
-    }
+async function tryGlob(pattern: string, cwd: string): Promise<string[]> {
+  return await globby.globby(pattern, {
+    cwd,
+    dot: true,
+    followSymbolicLinks: true,
+    absolute: true,
+  })
+}
+
+async function hasNodeModules(dir: string): Promise<boolean> {
+  try { await access(join(dir, 'node_modules')); return true }
+  catch { return false }
+}
+
+// search both `process.cwd()` and ancestors of `import.meta.url` that contain a `node_modules` dir; this means we find the wasm regardless of how the package was installed (locally, globally, via `npx`/`npm exec`, in a pnpm `.pnpm/` virtual store, etc.)
+async function collectSearchDirs(selfUrl: string): Promise<string[]> {
+  const dirs: string[] = []
+  const seen = new Set<string>()
+  const add = (d: string) => { if (!seen.has(d)) { seen.add(d); dirs.push(d) } }
+
+  let dir = dirname(fileURLToPath(selfUrl))
+  while (true) {
+    if (await hasNodeModules(dir)) add(dir)
+    const parent = dirname(dir)
+    if (parent === dir) break
+    dir = parent
   }
-  return []
+  add(process.cwd())
+  return dirs
 }
 
 export async function getOnigWasmPath(): Promise<string> {
@@ -46,11 +67,14 @@ export async function getOnigWasmPath(): Promise<string> {
     `node_modules/**/*${VSC_ONIG}*/**/onig.wasm`
   ]
 
-  const matches = await tryGlobPatterns(patterns)
-  if (!isNonEmpty(matches)) {
-    throw new Error(`could not find onig.wasm for ${VSC_ONIG}@${version}.`)
+  const searchDirs = await collectSearchDirs(import.meta.url)
+  for (const pattern of patterns) {
+    for (const dir of searchDirs) {
+      const matches = await tryGlob(pattern, dir)
+      if (isNonEmpty(matches)) return matches[0]
+    }
   }
-  return matches[0]
+  throw new Error(`could not find onig.wasm for ${VSC_ONIG}@${version}.`)
 }
 
 async function getVscOnigVersion(): Promise<string> {
