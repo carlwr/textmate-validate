@@ -1,9 +1,10 @@
-import { access, mkdir, mkdtemp } from 'node:fs/promises'
+import { access, mkdir, mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import process from 'node:process'
 import { rm_rf } from '@carlwr/typescript-extra'
 import { execa, type Result } from 'execa'
+import { globby } from 'globby'
 import { afterAll, beforeAll, describe, expect, it, type TestContext } from 'vitest'
 import { writeJsonFile } from './helpers/testUtils.js'
 
@@ -71,6 +72,35 @@ describe.concurrent('@dist simulate use with npx', () => {
 
     await expect(run).resolves.toMatch(/textmate-validate/)
 
+  })
+})
+
+describe.concurrent('@dist exits non-zero when onig.wasm cannot be found', () => {
+  let dir: AbsDir|undefined
+
+  beforeAll(async () => {
+    const d = await sysTempdir()
+    await installPack(d, pack)
+    const matches = await globby('node_modules/**/onig.wasm', {
+      cwd: d,
+      dot: true,
+      followSymbolicLinks: true,
+      absolute: true,
+    })
+    if (matches.length === 0) {
+      throw new Error('precondition failed: no onig.wasm found after install')
+    }
+    for (const m of matches) await rm(m, { force: true })
+    dir = d
+  })
+  afterAll(async () => { if (dir) await rm_rf(dir) })
+
+  it('exits non-zero', async () => {
+    if (!dir) throw new Error('beforeAll did not set up dir')
+    const args = ['exec', 'textmate-validate', grammar]
+    const res = await execa('pnpm', args, {cwd: dir, reject: false})
+    expect(res.exitCode).not.toBe(0)
+    expect(String(res.stderr)).toMatch(/could not find onig\.wasm/)
   })
 })
 
