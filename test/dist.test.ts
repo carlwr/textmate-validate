@@ -10,8 +10,8 @@ const GRAMMAR = join('test', 'fixtures', 'grammar.json')
 const aux = '.aux'
 
 
-describe.concurrent('@dist prod-build', it_buildsAndValidates('build'    ))
-describe.concurrent('@dist dev-build' , it_buildsAndValidates('build:dev'))
+describe('@dist prod-build', it_buildsAndValidates('build'    ))
+describe('@dist dev-build' , it_buildsAndValidates('build:dev'))
 
 
 function it_buildsAndValidates(script: string) {
@@ -21,7 +21,7 @@ function it_buildsAndValidates(script: string) {
     const index_js = join(dir, 'index.js')
     await rm_rf(dir)
 
-    it.sequential('builds', async () => {
+    it('builds', async () => {
       const result: Result = await execa('pnpm', [script,'--out',dir])
       expect(stripPnpmBanner(result.stderr)).toBe('')
       expect(result.exitCode).toBe(0)

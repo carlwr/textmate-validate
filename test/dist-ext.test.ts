@@ -25,9 +25,9 @@ let pack: AbsFile
 beforeAll(async () => { pack = await buildPack() })
 afterAll(consumerPkg.dispose)
 
-describe.concurrent('@dist simulate use in consuming package', () => {
+describe('@dist simulate use in consuming package', () => {
 
-  it.sequential('installs', async () => {
+  it('installs', async () => {
     await expect(
       consumerPkg.install(pack)
     ).resolves.toMatchObject(
