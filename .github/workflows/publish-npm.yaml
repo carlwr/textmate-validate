@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+#
+# npm trusted publishing (OIDC) — needs the matching trusted-publisher entry on
+# npmjs.com for @carlwr/textmate-validate (Settings → Publishing access).
+# Trusted-publisher fields:
+#   - Repository: carlwr/textmate-validate
+#   - Workflow filename: publish-npm.yaml
+#   - Environment: release
+
+name: publish-npm
+
+on:
+  push:
+    tags:
+    - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "tag to publish (must already exist)"
+        required: true
+
+permissions:
+  contents: read
+  id-token: write  # required for OIDC trusted publishing
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run build
+
+      - run: pnpm publish --provenance --no-git-checks --access public
